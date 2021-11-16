@@ -272,6 +272,194 @@ Diferente do login para pacientes pagos, aqui só é necessário enviar o CPF e 
 | token                   | Token que será utilizado em requests futuros                                           | String   |
 | requiresMoreInformation | Booleano que informa se o paciente está com todos os dados atualizados no banco ou não | Booleano |
 
+## Login de profissionais e clínicas
+
+```python
+import requests
+
+email = "email-do-profissional-ou-clinica-vem-aqui@mail.com"
+password = "senha-do-profissional-ou-clinica-vem-aqui"
+
+headers = {"x_tenant_id": "homolog"}
+payload = {"email": email, "password": password}
+
+response = requests.post('https://api.lab-saude.com/doctors/login/clinics-medic', data=payload, headers=headers)
+```
+
+```shell
+curl --location --request POST 'https://api.lab-saude.com/doctors/login/clinics-medic' \
+-H 'x_tenant_id: homolog' \
+-H 'Content-Type: application/json' \
+--data-raw '{
+    "email": "email-do-profissional-ou-clinica-vem-aqui@mail.com",
+    "password": "senha-do-profissional-ou-clinica-vem-aqui"
+}'
+```
+
+```javascript
+const axios = require("axios");
+
+const email = "email-do-profissional-ou-clinica-vem-aqui@mail.com";
+const password = "senha-do-profissional-ou-clinica-vem-aqui";
+
+const payload = { email: email, password: password };
+
+const apiResponse = await axios.post(
+  "https://api.lab-saude.com/doctors/login/clinics-medic",
+  payload,
+  {
+    headers: {
+      x_tenant_id: "homolog",
+    },
+  }
+);
+```
+
+> O comando acima retorna um JSON com a seguinte estrutura caso o login seja para um profissional:
+
+```json
+{
+  "type": "medic",
+  "user": {
+    "id": "c185b4a0-b5ff-4165-ab6b-54b27407fc34",
+    "name": "Dr. Mundo",
+    "email": "mundo@lol.com",
+    "crm": "CRM-PE-123456",
+    "accepts_presential_appointments": true,
+    "office_state": "Pernambuco",
+    "office_city": "Zaun",
+    "office_neighbor": "Top Lane",
+    "office_zip_code": "99.999-999",
+    "office_street": "Avenida League Barros de Legends",
+    "office_number": "999",
+    "image_link": null,
+    "appointment_price": "50.00",
+    "specialties": ["Facadas", "Injeções"]
+  },
+  "accessToken": {
+    "token": "Olhem-so!-Estou-carregando-o-Mundo-nos-ombros!",
+    "reference_id": "c185b4a0-b5ff-4165-ab6b-54b27407fc34",
+    "created_at": "2009-10-27T00:00:00.466+00:00",
+    "updated_at": "2021-06-09T00:00:00.466+00:00",
+    "id": 3
+  }
+}
+```
+
+> O comando acima retorna um JSON com a seguinte estrutura caso o login seja para uma clínica:
+
+```json
+{
+  "type": "clinic",
+  "user": {
+    "id": "b0d190a9-d3bc-42d5-97b3-9746a8e45c31",
+    "state": "PE",
+    "city": "Zaun",
+    "street": "Avenida dia do progresso",
+    "number": "123",
+    "complement": "Prédio de dois andares destruído",
+    "name": "Academia de Zaun",
+    "cnpj": "0000000000000.0001",
+    "email": "academia.zaun@mail.com",
+    "medics": [
+      {
+        "id": "c185b4a0-b5ff-4165-ab6b-54b27407fc34",
+        "name": "Dr. Mundo",
+        "email": "mundo@lol.com",
+        "crm": "CRM-PE-123456",
+        "accepts_presential_appointments": true,
+        "office_state": "Pernambuco",
+        "office_city": "Runeterra",
+        "office_neighbor": "Top Lane",
+        "office_zip_code": "99.999-999",
+        "office_street": "Avenida League Barros de Legends",
+        "office_number": "999",
+        "image_link": null,
+        "appointment_price": "50.00",
+        "specialties": ["Facadas", "Injeções"]
+      },
+      {
+        "id": "d4db9b8b-988e-4697-be56-da423e1fd93b",
+        "name": "Singed",
+        "email": "singed@mail.com",
+        "crm": "CRM-PE-1591593",
+        "accepts_presential_appointments": false,
+        "office_state": "PE",
+        "office_city": "Zaun",
+        "office_neighbor": "Espinheiro",
+        "office_zip_code": "52.020-060",
+        "office_street": "Rua do Espinheiro",
+        "office_number": "434",
+        "image_link": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Singed_0.jpg",
+        "appointment_price": "120",
+        "specialties": ["Poções", "Dependência Química"]
+      }
+    ]
+  },
+  "accessToken": {
+    "token": "Zaun-é-um-grande-distrito-abaixo-da-cidade,-aos-pés-de-cânions-profundos-e-vales-que-cortam-Piltover",
+    "reference_id": "b0d190a9-d3bc-42d5-97b3-9746a8e45c31",
+    "created_at": "2009-10-27T00:00:00.493+00:00",
+    "updated_at": "2021-11-16T20:38:35.493+00:00",
+    "id": 285
+  }
+}
+```
+
+Referente ao login no sistema para profissionais da saúde. Profissionais e clínicas cadastrados na Lab Saúde podem realizar o login.
+
+Para realizar a autenticação, é preciso enviar no request um objeto contendo os campos `email` e `password`, ambos strings.
+
+### Objeto de resposta descomplicado - login de PROFISSIONAIS
+
+| Campo                           | Descrição                                                                         | Tipo           |
+| ------------------------------- | --------------------------------------------------------------------------------- | -------------- |
+| type                            | Tipo do login, no caso do login para profissionais sempre será "medic"            | String         |
+| user                            | Objeto contendo as informações básicas do profissional                            | Objeto         |
+| id                              | ID do profissional no banco da Lab                                                | UUID           |
+| name                            | Nome do profissional da saúde                                                     | String         |
+| email                           | E-mail do profissional                                                            | String         |
+| crm                             | CRM do profissional, seguindo o padrão `CRM-UF-NÚMERO`                            | String         |
+| accepts_presential_appointments | Booleano que informa se o profissional aceita consultas presenciais ou não        | Booleano       |
+| office_state                    | Estado do endereço onde o profissional exerce sua profissão                       | String         |
+| office_city                     | Cidade do endereço onde o profissional exerce sua profissão                       | String         |
+| office_neighbor                 | Bairro do endereço onde o profissional exerce sua profissão                       | String         |
+| office_zip_code                 | CEP do endereço onde o profissional exerce sua profissão                          | String         |
+| office_street                   | Rua do endereço onde o profissional exerce sua profissão                          | String         |
+| office_number                   | Número do endereço onde o profissional exerce sua profissão                       | String         |
+| image_link                      | Link da imagem do profissional, caso exista, caso não exista, será retornado null | String ou null |
+| appointment_price               | Preço cheio da consulta com o profissional                                        | Objeto         |
+| specialties                     | Lista de especialidades do profissional                                           | Array[String]  |
+| accessToken                     | Objeto contendo as informações do token de acesso do login                        | Objeto         |
+| token                           | Token para ser utilizado em requests futuros                                      | String         |
+| reference_id                    | ID do profissional referente ao token no banco da Lab                             | UUID           |
+| created_at                      | Timestamp representando data de criação do token                                  | Timestamp      |
+| updated_at                      | Timestamp representando modificações feitas no banco de dados                     | Timestamp      |
+| id (accessToken)                | ID incremental do token, referente ao ID do token no banco                        | Número         |
+
+### Objeto de resposta descomplicado - login de CLÍNICAS
+
+| Campo            | Descrição                                                                                  | Tipo                 |
+| ---------------- | ------------------------------------------------------------------------------------------ | -------------------- |
+| type             | Tipo do login, no caso do login para profissionais sempre será "clinic"                    | String               |
+| user             | Objeto contendo as informações básicas da clínica                                          | Objeto               |
+| id               | ID da clínica no banco da Lab                                                              | UUID                 |
+| state            | Estado do endereço onde a clínica atua                                                     | String               |
+| city             | Cidade do endereço onde a clínica atua                                                     | String               |
+| street           | Rua do endereço onde a clínica atua                                                        | String               |
+| number           | Número do endereço onde a clínica atua                                                     | String               |
+| complement       | Complemento do endereço onde a clínica atua                                                | String               |
+| name             | Nome da clínica                                                                            | String               |
+| cnpj             | CNPJ da clínica                                                                            | String               |
+| email            | E-mail da clínica                                                                          | String               |
+| medics           | Lista de profissionais que atuam na clínica, segundo o padrão de dados do exemplo anterior | Array[Profissionais] |
+| accessToken      | Objeto contendo as informações do token de acesso do login                                 | Objeto               |
+| token            | Token para ser utilizado em requests futuros                                               | String               |
+| reference_id     | ID da clínica referente ao token no banco da Lab                                           | UUID                 |
+| created_at       | Timestamp representando data de criação do token no banco de dados da Lab                  | Timestamp            |
+| updated_at       | Timestamp representando modificações feitas no token no banco de dados                     | Timestamp            |
+| id (accessToken) | ID incremental do token no banco da Lab                                                    | Número               |
+
 # Kittens
 
 ## Get All Kittens
