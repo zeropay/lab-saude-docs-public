@@ -3,7 +3,6 @@ title: Documentação da API
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
   - python
   - javascript
 
@@ -31,44 +30,47 @@ Nós temos exemplos em Shell, Python, and JavaScript (usando a biblioteca axios)
 
 Caso você tenha alguma dúvida que não consiga ser respondida por meio dessa documentação, sinta-se livre para entrar em contato com o nosso [suporte técnico](mailto:ricardo@zeropay.io)
 
-# Authentication
+# Autenticação
 
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
+> Para se autenticar, use esse código:
 
 ```python
-import kittn
+import requests
 
-api = kittn.authorize('meowmeowmeow')
+headers = {"x_auth_token": "na-bruma-leve-das-paixoes-que-vem-de-dentro"}
+
+# Aqui usaremos um GET, mas poderia ser utilizado qualquer método.
+api = requests.get("endpoint_da_api_aqui", headers=headers)
 ```
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
+curl "endpoint_da_api_aqui" \
+  -H "x_auth_token: na-bruma-leve-das-paixoes-que-vem-de-dentro"
 ```
 
 ```javascript
-const kittn = require("kittn");
+const axios = require("axios");
 
-let api = kittn.authorize("meowmeowmeow");
+const apiInstance = axios.create({
+  baseURL: "https://dominio-da-api-aqui.com/",
+  timeout: 1000,
+  headers: { x_auth_token: "na-bruma-leve-das-paixoes-que-vem-de-dentro" },
+});
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+> Você precisa modificar Make sure to replace `na-bruma-leve-das-paixoes-que-vem-de-dentro` com o token que você recebeu na hora do login.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+<!-- TODO Linkar seções de paciente, profissional e clínica aos respectivos links -->
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+A Lab Saúde utiliza tokens recebidos no login para autorizar o acesso à API. Para realizar login você precisa de uma conta válida de uma pessoa paciente, profissional ou uma clínica.
 
-`Authorization: meowmeowmeow`
+A API espera que o token recebido no login seja incluído em todos os requests feitos ao servidor em um `header` seguindo o padrão:
+
+`x_auth_token: na-bruma-leve-das-paixoes-que-vem-de-dentro`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+Você precisa modificar <code>na-bruma-leve-das-paixoes-que-vem-de-dentro</code> com o token que você recebeu na hora do login.
 </aside>
 
 # Kittens
