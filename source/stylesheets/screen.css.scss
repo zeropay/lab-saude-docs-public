@@ -76,6 +76,7 @@ html, body {
     display: block;
     max-width: 100%;
     margin-bottom: $logo-margin;
+    margin: 15px 15px;
   }
 
   &>.search {
@@ -92,6 +93,10 @@ html, body {
       outline: none;
       color: $nav-text;
       border-radius: 0; /* ios has a default border radius */
+
+      &::placeholder {
+        color: #FFF;
+      }
     }
 
     &:before {
