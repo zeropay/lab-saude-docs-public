@@ -367,10 +367,10 @@ curl <span class="s2">"endpoint_da_api_aqui"</span> <span class="se">\</span>
   <span class="nt">-H</span> <span class="s2">"x_auth_token: na-bruma-leve-das-paixoes-que-vem-de-dentro"</span>
 </code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
 
-<span class="kd">const</span> <span class="nx">apiInstance</span> <span class="o">=</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
-  <span class="na">baseURL</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://dominio-da-api-aqui.com/</span><span class="dl">"</span><span class="p">,</span>
-  <span class="na">timeout</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
-  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span> <span class="na">x_auth_token</span><span class="p">:</span> <span class="dl">"</span><span class="s2">na-bruma-leve-das-paixoes-que-vem-de-dentro</span><span class="dl">"</span> <span class="p">},</span>
+<span class="kd">const</span> <span class="nx">apiResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">"</span><span class="s2">endpoint_da_api_aqui</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">x_auth_token</span><span class="p">:</span> <span class="dl">"</span><span class="s2">na-bruma-leve-das-paixoes-que-vem-de-dentro</span><span class="dl">"</span><span class="p">,</span>
+  <span class="p">},</span>
 <span class="p">});</span>
 </code></pre></div>
 <blockquote>
