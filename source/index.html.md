@@ -126,7 +126,7 @@ password = "senha-do-paciente-vem-aqui"
 headers = {"x_tenant_id": "homolog"}
 payload = base64.b64encode({"user": cpf, "pass": password})
 
-api = requests.post('https://api.lab-saude.com/tenants/login/user', data={"Authorization": payload}, headers=headers)
+response = requests.post('https://api.lab-saude.com/tenants/login/user', data={"Authorization": payload}, headers=headers)
 ```
 
 ```shell
@@ -176,9 +176,9 @@ const apiResponse = await axios.post(
 }
 ```
 
-Referente ao login no aplicativo da Lab Saúde. Apenas pacientes pagantes da Lab Saúde possuem acesso à esse login, caso você queria fazer login como um paciente gratuito, por favor, se refira ao [login de pacientes gratuitos](#login-de-pacientes-gratuitos).
+Referente ao login no aplicativo da Lab Saúde. Apenas pacientes pagantes da Lab Saúde possuem acesso a esse login, caso você queria fazer login como um paciente gratuito, por favor, se refira ao [login de pacientes gratuitos](#login-de-pacientes-gratuitos).
 
-Este endpoint requer que o CPF e a senha do pacientes sejam transformados em base64 e enviados como um objeto com a chave `Authorization`.
+Este endpoint requer que o CPF e a senha do pacientes sejam transformados em uma string em base64 e enviados como um objeto com a chave `Authorization`.
 
 ### Objeto de resposta descomplicado
 
@@ -196,7 +196,81 @@ Este endpoint requer que o CPF e a senha do pacientes sejam transformados em bas
 
 ## Login de pacientes gratuitos
 
-todo
+```python
+import requests
+
+cpf = "cpf-do-paciente-vem-aqui"
+password = "senha-do-paciente-vem-aqui"
+
+headers = {"x_tenant_id": "homolog"}
+payload = {"CPF": cpf, "password": password}
+
+response = requests.post('https://api.lab-saude.com/tenants/login/free', data=payload, headers=headers)
+```
+
+```shell
+curl --location --request POST 'https://api.lab-saude.com/tenants/login/free' \
+-H 'x_tenant_id: homolog' \
+-H 'Content-Type: application/json' \
+--data-raw '{
+    "CPF": "cpf-do-paciente-vem-aqui",
+    "password": "senha-do-paciente-vem-aqui"
+}'
+```
+
+```javascript
+const axios = require("axios");
+
+const cpf = "cpf-do-paciente-vem-aqui";
+const password = "senha-do-paciente-vem-aqui";
+
+const payload = { CPF: cpf, password: password };
+
+const apiResponse = await axios.post(
+  "https://api.lab-saude.com/tenants/login/free",
+  payload,
+  {
+    headers: {
+      x_tenant_id: "homolog",
+    },
+  }
+);
+```
+
+> O comando acima retorna um JSON com a seguinte estrutura:
+
+```json
+{
+  "status": 200,
+  "response": {
+    "name": "Rihanna Fenty",
+    "cpf": "424.637.140-85",
+    "email": "rihanna@diamonds.com",
+    "user_id": "736088ee-4247-4972-b35a-e9e76e8a8545",
+    "phone": "+99 (99) 9.9999-9999"
+  },
+  "token": "shine-bright-like-a-diamond",
+  "requiresMoreInformation": false
+}
+```
+
+Referente ao login no sistema para pacientes gratuitos da Lab Saúde. Qualquer paciente tem acesso a esse login, seja ele pagante ou não.
+
+Diferente do login para pacientes pagos, aqui só é necessário enviar o CPF e a senha o paciente em um objeto simples.
+
+### Objeto de resposta descomplicado
+
+| Campo                   | Descrição                                                                              | Tipo     |
+| ----------------------- | -------------------------------------------------------------------------------------- | -------- |
+| status                  | O status do request HTTP                                                               | Inteiro  |
+| response                | Objeto contendo informações do paciente                                                | Objeto   |
+| name                    | Nome do paciente                                                                       | String   |
+| cpf                     | cpf do paciente                                                                        | String   |
+| email                   | email do paciente                                                                      | String   |
+| user_id                 | ID do paciente no banco da Lab                                                         | UUID     |
+| phone?                  | Número de telefone do paciente, ou uma string vazia                                    | String   |
+| token                   | Token que será utilizado em requests futuros                                           | String   |
+| requiresMoreInformation | Booleano que informa se o paciente está com todos os dados atualizados no banco ou não | Booleano |
 
 # Kittens
 
