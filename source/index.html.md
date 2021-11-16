@@ -77,13 +77,6 @@ Você precisa modificar <code>na-bruma-leve-das-paixoes-que-vem-de-dentro</code>
 
 ## Get All Kittens
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
 ```python
 import kittn
 
@@ -143,13 +136,6 @@ Remember — a happy kitten is an authenticated kitten!
 
 ## Get a Specific Kitten
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
 ```python
 import kittn
 
@@ -196,13 +182,6 @@ This endpoint retrieves a specific kitten.
 | ID        | The ID of the kitten to retrieve |
 
 ## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
 
 ```python
 import kittn
