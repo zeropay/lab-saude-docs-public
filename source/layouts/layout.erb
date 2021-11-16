@@ -38,7 +38,7 @@ under the License.
         >
       <% end %>
     <% end %>
-    <title><%= current_page.data.title || "API Documentation" %></title>
+    <title><%= current_page.data.title || "Documentação da API" %></title>
 
     <style media="screen">
       <%= Rouge::Themes::MonokaiSublimeSlate.render(:scope => '.highlight') %>
@@ -86,7 +86,7 @@ under the License.
       <% end %>
       <% if current_page.data.search %>
         <div class="search">
-          <input type="text" class="search" id="input-search" placeholder="Search">
+          <input type="text" class="search" id="input-search" placeholder="Buscar">
         </div>
         <ul class="search-results"></ul>
       <% end %>
