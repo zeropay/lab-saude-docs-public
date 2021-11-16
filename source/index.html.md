@@ -52,10 +52,10 @@ curl "endpoint_da_api_aqui" \
 ```javascript
 const axios = require("axios");
 
-const apiInstance = axios.create({
-  baseURL: "https://dominio-da-api-aqui.com/",
-  timeout: 1000,
-  headers: { x_auth_token: "na-bruma-leve-das-paixoes-que-vem-de-dentro" },
+const apiResponse = await axios.get("endpoint_da_api_aqui", {
+  headers: {
+    x_auth_token: "na-bruma-leve-das-paixoes-que-vem-de-dentro",
+  },
 });
 ```
 
