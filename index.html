@@ -443,7 +443,7 @@ Você precisa modificar <code>na-bruma-leve-das-paixoes-que-vem-de-dentro</code>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"x_tenant_id"</span><span class="p">:</span> <span class="s">"homolog"</span><span class="p">}</span>
 <span class="n">payload</span> <span class="o">=</span> <span class="n">base64</span><span class="p">.</span><span class="n">b64encode</span><span class="p">({</span><span class="s">"user"</span><span class="p">:</span> <span class="n">cpf</span><span class="p">,</span> <span class="s">"pass"</span><span class="p">:</span> <span class="n">password</span><span class="p">})</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">'https://api.lab-saude.com/tenants/login/user'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s">"Authorization"</span><span class="p">:</span> <span class="n">payload</span><span class="p">},</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">'https://api.lab-saude.com/tenants/login/user'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s">"Authorization"</span><span class="p">:</span> <span class="n">payload</span><span class="p">},</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> POST <span class="s1">'https://api.lab-saude.com/tenants/login/user'</span> <span class="se">\</span>
 <span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
 <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
@@ -485,9 +485,9 @@ Você precisa modificar <code>na-bruma-leve-das-paixoes-que-vem-de-dentro</code>
   </span><span class="nl">"requiresMoreInformation"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>Referente ao login no aplicativo da Lab Saúde. Apenas pacientes pagantes da Lab Saúde possuem acesso à esse login, caso você queria fazer login como um paciente gratuito, por favor, se refira ao <a href="#login-de-pacientes-gratuitos">login de pacientes gratuitos</a>.</p>
+<p>Referente ao login no aplicativo da Lab Saúde. Apenas pacientes pagantes da Lab Saúde possuem acesso a esse login, caso você queria fazer login como um paciente gratuito, por favor, se refira ao <a href="#login-de-pacientes-gratuitos">login de pacientes gratuitos</a>.</p>
 
-<p>Este endpoint requer que o CPF e a senha do pacientes sejam transformados em base64 e enviados como um objeto com a chave <code>Authorization</code>.</p>
+<p>Este endpoint requer que o CPF e a senha do pacientes sejam transformados em uma string em base64 e enviados como um objeto com a chave <code>Authorization</code>.</p>
 <h3 id='objeto-de-resposta-descomplicado'>Objeto de resposta descomplicado</h3>
 <table><thead>
 <tr>
@@ -542,8 +542,112 @@ Você precisa modificar <code>na-bruma-leve-das-paixoes-que-vem-de-dentro</code>
 <td>Booleano</td>
 </tr>
 </tbody></table>
-<h2 id='login-de-pacientes-gratuitos'>Login de pacientes gratuitos</h2>
-<p>todo</p>
+<h2 id='login-de-pacientes-gratuitos'>Login de pacientes gratuitos</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">cpf</span> <span class="o">=</span> <span class="s">"cpf-do-paciente-vem-aqui"</span>
+<span class="n">password</span> <span class="o">=</span> <span class="s">"senha-do-paciente-vem-aqui"</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"x_tenant_id"</span><span class="p">:</span> <span class="s">"homolog"</span><span class="p">}</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s">"CPF"</span><span class="p">:</span> <span class="n">cpf</span><span class="p">,</span> <span class="s">"password"</span><span class="p">:</span> <span class="n">password</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">'https://api.lab-saude.com/tenants/login/free'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> POST <span class="s1">'https://api.lab-saude.com/tenants/login/free'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<span class="nt">--data-raw</span> <span class="s1">'{
+    "CPF": "cpf-do-paciente-vem-aqui",
+    "password": "senha-do-paciente-vem-aqui"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">cpf</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">cpf-do-paciente-vem-aqui</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">password</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">senha-do-paciente-vem-aqui</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">payload</span> <span class="o">=</span> <span class="p">{</span> <span class="na">CPF</span><span class="p">:</span> <span class="nx">cpf</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">password</span> <span class="p">};</span>
+
+<span class="kd">const</span> <span class="nx">apiResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span>
+  <span class="dl">"</span><span class="s2">https://api.lab-saude.com/tenants/login/free</span><span class="dl">"</span><span class="p">,</span>
+  <span class="nx">payload</span><span class="p">,</span>
+  <span class="p">{</span>
+    <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">x_tenant_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">homolog</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">}</span>
+<span class="p">);</span>
+</code></pre></div>
+<blockquote>
+<p>O comando acima retorna um JSON com a seguinte estrutura:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rihanna Fenty"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cpf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"424.637.140-85"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rihanna@diamonds.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"736088ee-4247-4972-b35a-e9e76e8a8545"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+99 (99) 9.9999-9999"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"shine-bright-like-a-diamond"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"requiresMoreInformation"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Referente ao login no sistema para pacientes gratuitos da Lab Saúde. Qualquer paciente tem acesso a esse login, seja ele pagante ou não.</p>
+
+<p>Diferente do login para pacientes pagos, aqui só é necessário enviar o CPF e a senha o paciente em um objeto simples.</p>
+<h3 id='objeto-de-resposta-descomplicado-2'>Objeto de resposta descomplicado</h3>
+<table><thead>
+<tr>
+<th>Campo</th>
+<th>Descrição</th>
+<th>Tipo</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status</td>
+<td>O status do request HTTP</td>
+<td>Inteiro</td>
+</tr>
+<tr>
+<td>response</td>
+<td>Objeto contendo informações do paciente</td>
+<td>Objeto</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nome do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>cpf</td>
+<td>cpf do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>email</td>
+<td>email do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>ID do paciente no banco da Lab</td>
+<td>UUID</td>
+</tr>
+<tr>
+<td>phone?</td>
+<td>Número de telefone do paciente, ou uma string vazia</td>
+<td>String</td>
+</tr>
+<tr>
+<td>token</td>
+<td>Token que será utilizado em requests futuros</td>
+<td>String</td>
+</tr>
+<tr>
+<td>requiresMoreInformation</td>
+<td>Booleano que informa se o paciente está com todos os dados atualizados no banco ou não</td>
+<td>Booleano</td>
+</tr>
+</tbody></table>
 <h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
