@@ -295,7 +295,7 @@
     </script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;python&quot;,&quot;javascript&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -306,7 +306,6 @@
       <img src="images/logo-bcbad027.png" class="logo" alt="" />
         <div class="lang-selector">
               <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
               <a href="#" data-language-name="python">python</a>
               <a href="#" data-language-name="javascript">javascript</a>
         </div>
@@ -319,7 +318,7 @@
             <a href="#introducao" class="toc-h1 toc-link" data-title="Introdução">Introdução</a>
           </li>
           <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+            <a href="#autenticacao" class="toc-h1 toc-link" data-title="Autenticação">Autenticação</a>
           </li>
           <li>
             <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
@@ -353,35 +352,41 @@
 <p>Nós temos exemplos em Shell, Python, and JavaScript (usando a biblioteca axios)! Você pode visualizar os exemplos de implementação das chamadas à api na área mais escura a direita, e você pode trocar para a sua linguagem de preferência nas abas do canto superior direito.</p>
 
 <p>Caso você tenha alguma dúvida que não consiga ser respondida por meio dessa documentação, sinta-se livre para entrar em contato com o nosso <a href="mailto:ricardo@zeropay.io">suporte técnico</a></p>
-<h1 id='authentication'>Authentication</h1>
+<h1 id='autenticacao'>Autenticação</h1>
 <blockquote>
-<p>To authorize, use this code:</p>
+<p>Para se autenticar, use esse código:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"x_auth_token"</span><span class="p">:</span> <span class="s">"na-bruma-leve-das-paixoes-que-vem-de-dentro"</span><span class="p">}</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
+<span class="c1"># Aqui usaremos um GET, mas poderia ser utilizado qualquer método.
+</span><span class="n">api</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"endpoint_da_api_aqui"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">kittn</span><span class="dl">"</span><span class="p">);</span>
+curl <span class="s2">"endpoint_da_api_aqui"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"x_auth_token: na-bruma-leve-das-paixoes-que-vem-de-dentro"</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">"</span><span class="s2">meowmeowmeow</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">apiInstance</span> <span class="o">=</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+  <span class="na">baseURL</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://dominio-da-api-aqui.com/</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">timeout</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span> <span class="na">x_auth_token</span><span class="p">:</span> <span class="dl">"</span><span class="s2">na-bruma-leve-das-paixoes-que-vem-de-dentro</span><span class="dl">"</span> <span class="p">},</span>
+<span class="p">});</span>
 </code></pre></div>
 <blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
+<p>Você precisa modificar Make sure to replace <code>na-bruma-leve-das-paixoes-que-vem-de-dentro</code> com o token que você recebeu na hora do login.</p>
 </blockquote>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<!-- TODO Linkar seções de paciente, profissional e clínica aos respectivos links -->
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<p>A Lab Saúde utiliza tokens recebidos no login para autorizar o acesso à API. Para realizar login você precisa de uma conta válida de uma pessoa paciente, profissional ou uma clínica.</p>
 
-<p><code>Authorization: meowmeowmeow</code></p>
+<p>A API espera que o token recebido no login seja incluído em todos os requests feitos ao servidor em um <code>header</code> seguindo o padrão:</p>
+
+<p><code>x_auth_token: na-bruma-leve-das-paixoes-que-vem-de-dentro</code></p>
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+Você precisa modificar <code>na-bruma-leve-das-paixoes-que-vem-de-dentro</code> com o token que você recebeu na hora do login.
 </aside>
 <h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
 
@@ -589,7 +594,6 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
       <div class="dark-box">
           <div class="lang-selector">
                 <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
                 <a href="#" data-language-name="python">python</a>
                 <a href="#" data-language-name="javascript">javascript</a>
           </div>
