@@ -1005,6 +1005,74 @@ A API retorna um array contendo todos os pacientes cadastrados no banco (tanto p
 | ----- | ------------------ | ---------------- |
 | -     | Array de pacientes | Array[Pacientes] |
 
+## Listar todos os pacientes
+
+```python
+import requests
+
+payload = {
+  "cpf": "786.985.230-99",
+  "email": "luke@jedi.com"
+}
+
+headers = {
+  'x_tenant_id': 'homolog',
+  'x_auth_token': 'may-the-force-be-with-you'
+}
+
+response = requests.put('https://homolog.api.lab-saude.com/tenants/users/recovery-password', data=payload, headers=headers)
+```
+
+```shell
+curl --location --request PUT 'https://homolog.api.lab-saude.com/tenants/users/recovery-password' \
+-H 'x_tenant_id: homolog' \
+-H 'x_auth_token: may-the-force-be-with-you' \
+--data-raw '{
+    "cpf": "786.985.230-99",
+    "email": "luke@jedi.com"
+}'
+```
+
+```javascript
+const axios = require("axios");
+
+const body = {
+  cpf: "786.985.230-99",
+  email: "luke@jedi.com",
+};
+
+const apiResponse = await axios.put(
+  "https://homolog.api.lab-saude.com/tenants/users/recovery-password",
+  body,
+  {
+    headers: {
+      x_tenant_id: "homolog",
+      x_auth_token: "may-the-force-be-with-you",
+    },
+  }
+);
+```
+
+> O comando acima retorna um JSON com a seguinte estrutura:
+
+```json
+{
+  "message": "An e-mail will be sent."
+}
+```
+
+Por meio deste endpoint é possível recuperar a senha de um paciente.
+
+Basta apenas enviar o e-mail e cpf do paciente em questão. Dentro de alguns minutos ele receberá um e-mail explicando como recuperar sua senha.
+
+A API retorna uma mensagem padrão de sucesso avisando que o e-mail será enviado.
+
+### Objeto de resposta descomplicado
+
+| Campo   | Descrição                                                    | Tipo   |
+| ------- | ------------------------------------------------------------ | ------ |
+| message | Mensagem indicando que um e-mail será enviado para o usuário | String |
+
 # Kittens
 
 ## Get All Kittens
