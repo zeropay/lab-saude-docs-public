@@ -725,6 +725,119 @@ A API recebe um CSV que segue o padrão:
 
 As informações referentes ao login no aplicativo da Lab Saúde serão enviadas por e-mail para os pacientes cadastrados.
 
+## Listar todos os pacientes
+
+```python
+import requests
+
+headers = {
+  'x_tenant_id': 'homolog',
+  'x_auth_token': 'may-the-force-be-with-you'
+}
+
+response = requests.get('https://homolog.api.lab-saude.com/tenants/users', headers=headers)
+```
+
+```shell
+curl --location --request GET 'https://homolog.api.lab-saude.com/tenants/users' \
+-H 'x_tenant_id: homolog' \
+-H 'x_auth_token: may-the-force-be-with-you'
+```
+
+```javascript
+const axios = require("axios");
+
+const apiResponse = await axios.post(
+  "https://homolog.api.lab-saude.com/tenants/users",
+  {
+    headers: {
+      x_tenant_id: "homolog",
+      x_auth_token: "may-the-force-be-with-you",
+    },
+  }
+);
+```
+
+> O comando acima retorna um JSON com a seguinte estrutura:
+
+```json
+[
+  {
+    "id": "e21a8cf0-0580-4a1a-8125-da129f64d128",
+    "name": "Luke Skywalker",
+    "email": "luke@jedi.com",
+    "password": "senha-criptografada",
+    "cpf": "786.985.230-99",
+    "phone": "+99 (99) 9.9999-9999",
+    "company_id": "JEDI",
+    "created_at": "1951-09-25T18:19:01.911+00:00",
+    "updated_at": "2021-11-18T18:19:01.911+00:00",
+    "system_wallet_number": "123",
+    "rg": null,
+    "mother_name": null,
+    "birth_date": "25/09/1951",
+    "gender": null,
+    "civil_state": null,
+    "profession": null,
+    "image_link": null,
+    "one_signal_id": null,
+    "payer": true,
+    "requires_more_info": false
+  },
+  {
+    "id": "9d17d3bd-4a78-43fa-8291-795ff27e0d2a",
+    "name": "Baby Yoda",
+    "email": "baby.yoda@jedi.com",
+    "password": "senha-criptografada",
+    "cpf": "522.803.300-91",
+    "phone": "+99 (99) 9.9999-9999",
+    "company_id": "lab-saude",
+    "created_at": "1972-10-21T18:31:57.298+00:00",
+    "updated_at": "2021-11-18T18:31:57.298+00:00",
+    "system_wallet_number": null,
+    "rg": null,
+    "mother_name": null,
+    "birth_date": null,
+    "gender": null,
+    "civil_state": null,
+    "profession": null,
+    "image_link": null,
+    "one_signal_id": null,
+    "payer": false,
+    "requires_more_info": false
+  }
+]
+```
+
+Este endpoint serve para listar todos os pacientes cadastrados no banco. Feito especialmente para o ambiente de testes, é uma boa ferramenta para realizar queries que atuem sobre todos os pacientes e também para realizar debug durante o desenvolvimento.
+
+A API retorna um array contendo todos os pacientes cadastrados no banco (tanto pagantes como gratuitos), assim como as suas informações.
+
+### Objeto de resposta descomplicado
+
+| Campo                | Descrição                                                                                                                                                  | Tipo           |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| id                   | ID do paciente no banco da Lab                                                                                                                             | UUID           |
+| name                 | Nome do paciente                                                                                                                                           | String         |
+| email                | E-mail do paciente                                                                                                                                         | String         |
+| password             | Senha do paciente criptografada utilizando Argon2                                                                                                          | String         |
+| cpf                  | CPF do paciente                                                                                                                                            | String         |
+| phone                | Número de telefone do paciente                                                                                                                             | String         |
+| company_id           | Identificador que referencia um paciente à uma empresa do ecossistema Lab                                                                                  | String         |
+| created_at           | Timestamp da data e hora de criação do paciente no banco                                                                                                   | Timestamp      |
+| updated_at           | Timestamp da data e hora da última atualização do paciente no banco                                                                                        | Timestamp      |
+| system_wallet_number | Caso seja um paciente pagante, recebe o número da carteira do paciente na System Saúde, parceira da Lab Saúde. Caso seja um paciente gratuito, recebe null | String ou null |
+| rg                   | R.G. do paciente                                                                                                                                           | String ou null |
+| mother_name          | Nome da mãe do paciente                                                                                                                                    | String ou null |
+| birth_date           | Data de nascimento do paciente                                                                                                                             | String ou null |
+| gender               | Gênero do paciente                                                                                                                                         | String ou null |
+| civil_state          | Estado civil do paciente                                                                                                                                   | String ou null |
+| profession           | Profissão do paciente                                                                                                                                      | String ou null |
+| image_link           | Link para imagem de perfil do paciente                                                                                                                     | String ou null |
+| one_signal_id        | ID do paciente no OneSignal, utilizado para enviar push notifications                                                                                      | String ou null |
+| payer                | Booleano que informa se o paciente é ou não um paciente pagante                                                                                            | Booleano       |
+| requires_more_info   | Booleano que informa se o paciente precisa adicionar mais informações para que seu cadastro fique completo                                                 | Booleano       |
+
 # Kittens
 
 ## Get All Kittens
