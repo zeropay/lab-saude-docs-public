@@ -908,28 +908,9 @@ A API retorna um array contendo todos os pacientes cadastrados no banco (tanto p
 
 ### Objeto de resposta descomplicado
 
-| Campo                | Descrição                                                                                                                                                  | Tipo           |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| id                   | ID do paciente no banco da Lab                                                                                                                             | UUID           |
-| name                 | Nome do paciente                                                                                                                                           | String         |
-| email                | E-mail do paciente                                                                                                                                         | String         |
-| password             | Senha do paciente criptografada utilizando Argon2                                                                                                          | String         |
-| cpf                  | CPF do paciente                                                                                                                                            | String         |
-| phone                | Número de telefone do paciente                                                                                                                             | String         |
-| company_id           | Identificador que referencia um paciente à uma empresa do ecossistema Lab                                                                                  | String         |
-| created_at           | Timestamp da data e hora de criação do paciente no banco                                                                                                   | Timestamp      |
-| updated_at           | Timestamp da data e hora da última atualização do paciente no banco                                                                                        | Timestamp      |
-| system_wallet_number | Caso seja um paciente pagante, recebe o número da carteira do paciente na System Saúde, parceira da Lab Saúde. Caso seja um paciente gratuito, recebe null | String ou null |
-| rg                   | R.G. do paciente                                                                                                                                           | String ou null |
-| mother_name          | Nome da mãe do paciente                                                                                                                                    | String ou null |
-| birth_date           | Data de nascimento do paciente                                                                                                                             | String ou null |
-| gender               | Gênero do paciente                                                                                                                                         | String ou null |
-| civil_state          | Estado civil do paciente                                                                                                                                   | String ou null |
-| profession           | Profissão do paciente                                                                                                                                      | String ou null |
-| image_link           | Link para imagem de perfil do paciente                                                                                                                     | String ou null |
-| one_signal_id        | ID do paciente no OneSignal, utilizado para enviar push notifications                                                                                      | String ou null |
-| payer                | Booleano que informa se o paciente é ou não um paciente pagante                                                                                            | Booleano       |
-| requires_more_info   | Booleano que informa se o paciente precisa adicionar mais informações para que seu cadastro fique completo                                                 | Booleano       |
+| Campo | Descrição          | Tipo             |
+| ----- | ------------------ | ---------------- |
+| -     | Array de pacientes | Array[Pacientes] |
 
 # Kittens
 
