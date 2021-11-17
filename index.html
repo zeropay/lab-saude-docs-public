@@ -349,6 +349,9 @@
                   <li>
                     <a href="#criar-varios-pacientes-pagos-de-uma-so-vez" class="toc-h2 toc-link" data-title="Criar vários pacientes pagos de uma só vez">Criar vários pacientes pagos de uma só vez</a>
                   </li>
+                  <li>
+                    <a href="#listar-todos-os-pacientes" class="toc-h2 toc-link" data-title="Listar todos os pacientes">Listar todos os pacientes</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -1340,6 +1343,191 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 </tbody></table>
 
 <p>As informações referentes ao login no aplicativo da Lab Saúde serão enviadas por e-mail para os pacientes cadastrados.</p>
+<h2 id='listar-todos-os-pacientes'>Listar todos os pacientes</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">'x_tenant_id'</span><span class="p">:</span> <span class="s">'homolog'</span><span class="p">,</span>
+  <span class="s">'x_auth_token'</span><span class="p">:</span> <span class="s">'may-the-force-be-with-you'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://homolog.api.lab-saude.com/tenants/users'</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> GET <span class="s1">'https://homolog.api.lab-saude.com/tenants/users'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'x_auth_token: may-the-force-be-with-you'</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">apiResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span>
+  <span class="dl">"</span><span class="s2">https://homolog.api.lab-saude.com/tenants/users</span><span class="dl">"</span><span class="p">,</span>
+  <span class="p">{</span>
+    <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">x_tenant_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">homolog</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">x_auth_token</span><span class="p">:</span> <span class="dl">"</span><span class="s2">may-the-force-be-with-you</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">}</span>
+<span class="p">);</span>
+</code></pre></div>
+<blockquote>
+<p>O comando acima retorna um JSON com a seguinte estrutura:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e21a8cf0-0580-4a1a-8125-da129f64d128"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Luke Skywalker"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"luke@jedi.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"senha-criptografada"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cpf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"786.985.230-99"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+99 (99) 9.9999-9999"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"company_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JEDI"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1951-09-25T18:19:01.911+00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-11-18T18:19:01.911+00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"system_wallet_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"rg"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mother_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"birth_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25/09/1951"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"gender"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"civil_state"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"profession"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"image_link"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"one_signal_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"payer"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"requires_more_info"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9d17d3bd-4a78-43fa-8291-795ff27e0d2a"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Baby Yoda"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"baby.yoda@jedi.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"senha-criptografada"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cpf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"522.803.300-91"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+99 (99) 9.9999-9999"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"company_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lab-saude"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1972-10-21T18:31:57.298+00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-11-18T18:31:57.298+00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"system_wallet_number"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"rg"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mother_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"birth_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"gender"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"civil_state"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"profession"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"image_link"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"one_signal_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"payer"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"requires_more_info"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Este endpoint serve para listar todos os pacientes cadastrados no banco. Feito especialmente para o ambiente de testes, é uma boa ferramenta para realizar queries que atuem sobre todos os pacientes e também para realizar debug durante o desenvolvimento.</p>
+
+<p>A API retorna um array contendo todos os pacientes cadastrados no banco (tanto pagantes como gratuitos), assim como as suas informações.</p>
+<h3 id='objeto-de-resposta-descomplicado-5'>Objeto de resposta descomplicado</h3>
+<table><thead>
+<tr>
+<th>Campo</th>
+<th>Descrição</th>
+<th>Tipo</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>ID do paciente no banco da Lab</td>
+<td>UUID</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nome do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>email</td>
+<td>E-mail do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>password</td>
+<td>Senha do paciente criptografada utilizando Argon2</td>
+<td>String</td>
+</tr>
+<tr>
+<td>cpf</td>
+<td>CPF do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>Número de telefone do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>company_id</td>
+<td>Identificador que referencia um paciente à uma empresa do ecossistema Lab</td>
+<td>String</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Timestamp da data e hora de criação do paciente no banco</td>
+<td>Timestamp</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>Timestamp da data e hora da última atualização do paciente no banco</td>
+<td>Timestamp</td>
+</tr>
+<tr>
+<td>system_wallet_number</td>
+<td>Caso seja um paciente pagante, recebe o número da carteira do paciente na System Saúde, parceira da Lab Saúde. Caso seja um paciente gratuito, recebe null</td>
+<td>String ou null</td>
+</tr>
+<tr>
+<td>rg</td>
+<td>R.G. do paciente</td>
+<td>String ou null</td>
+</tr>
+<tr>
+<td>mother_name</td>
+<td>Nome da mãe do paciente</td>
+<td>String ou null</td>
+</tr>
+<tr>
+<td>birth_date</td>
+<td>Data de nascimento do paciente</td>
+<td>String ou null</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>Gênero do paciente</td>
+<td>String ou null</td>
+</tr>
+<tr>
+<td>civil_state</td>
+<td>Estado civil do paciente</td>
+<td>String ou null</td>
+</tr>
+<tr>
+<td>profession</td>
+<td>Profissão do paciente</td>
+<td>String ou null</td>
+</tr>
+<tr>
+<td>image_link</td>
+<td>Link para imagem de perfil do paciente</td>
+<td>String ou null</td>
+</tr>
+<tr>
+<td>one_signal_id</td>
+<td>ID do paciente no OneSignal, utilizado para enviar push notifications</td>
+<td>String ou null</td>
+</tr>
+<tr>
+<td>payer</td>
+<td>Booleano que informa se o paciente é ou não um paciente pagante</td>
+<td>Booleano</td>
+</tr>
+<tr>
+<td>requires_more_info</td>
+<td>Booleano que informa se o paciente precisa adicionar mais informações para que seu cadastro fique completo</td>
+<td>Booleano</td>
+</tr>
+</tbody></table>
 <h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
