@@ -338,6 +338,20 @@
               </ul>
           </li>
           <li>
+            <a href="#pacientes" class="toc-h1 toc-link" data-title="Pacientes">Pacientes</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#criar-um-paciente-pago" class="toc-h2 toc-link" data-title="Criar um paciente pago">Criar um paciente pago</a>
+                  </li>
+                  <li>
+                    <a href="#criar-um-paciente-gratuito" class="toc-h2 toc-link" data-title="Criar um paciente gratuito">Criar um paciente gratuito</a>
+                  </li>
+                  <li>
+                    <a href="#criar-varios-pacientes-pagos-de-uma-so-vez" class="toc-h2 toc-link" data-title="Criar vários pacientes pagos de uma só vez">Criar vários pacientes pagos de uma só vez</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
               <ul class="toc-list-h2">
                   <li>
@@ -521,7 +535,7 @@ Você precisa modificar <code>na-bruma-leve-das-paixoes-que-vem-de-dentro</code>
 </tr>
 <tr>
 <td>email</td>
-<td>email do paciente</td>
+<td>E-mail do paciente</td>
 <td>String</td>
 </tr>
 <tr>
@@ -627,7 +641,7 @@ Você precisa modificar <code>na-bruma-leve-das-paixoes-que-vem-de-dentro</code>
 </tr>
 <tr>
 <td>email</td>
-<td>email do paciente</td>
+<td>E-mail do paciente</td>
 <td>String</td>
 </tr>
 <tr>
@@ -994,6 +1008,339 @@ Você precisa modificar <code>na-bruma-leve-das-paixoes-que-vem-de-dentro</code>
 <td>Número</td>
 </tr>
 </tbody></table>
+<h1 id='pacientes'>Pacientes</h1>
+<p>É possível realizar diversas ações por meio da API da Lab Saúde. Algumas das mais importantes são, sem dúvidas, as operações em cima dos pacientes, tanto pagos quanto gratuitos.</p>
+
+<p>A seguir, veremos as várias operações possíveis de serem feitas.</p>
+<h2 id='criar-um-paciente-pago'>Criar um paciente pago</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"name"</span><span class="p">:</span> <span class="s">"Luke Skywalker"</span><span class="p">,</span>
+  <span class="s">"email"</span><span class="p">:</span> <span class="s">"luke@jedi.com"</span><span class="p">,</span>
+  <span class="s">"password"</span><span class="p">:</span> <span class="s">"ultimo-jedi@123"</span><span class="p">,</span>
+  <span class="s">"passwordConfirmation"</span><span class="p">:</span> <span class="s">"ultimo-jedi@123"</span><span class="p">,</span>
+  <span class="s">"cpf"</span><span class="p">:</span> <span class="s">"786.985.230-99"</span><span class="p">,</span>
+  <span class="s">"phone"</span><span class="p">:</span> <span class="s">"+99 (99) 9.9999-9999"</span><span class="p">,</span>
+  <span class="s">"birth_date"</span><span class="p">:</span> <span class="s">"25/09/1951"</span><span class="p">,</span>
+  <span class="s">"system_wallet_number"</span><span class="p">:</span> <span class="s">"123"</span><span class="p">,</span>
+  <span class="s">"company_id"</span><span class="p">:</span> <span class="s">"JEDI"</span><span class="p">,</span>
+  <span class="s">"payer"</span><span class="p">:</span> <span class="n">true</span>
+<span class="p">}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"x_tenant_id"</span><span class="p">:</span> <span class="s">"homolog"</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">'https://api.lab-saude.com/tenants/users'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> POST <span class="s1">'https://api.lab-saude.com/tenants/users'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<span class="nt">--data-raw</span> <span class="s1">'{
+  "name": "Luke Skywalker",
+  "email": "luke@jedi.com",
+  "password": "ultimo-jedi@123",
+  "passwordConfirmation": "ultimo-jedi@123",
+  "cpf": "786.985.230-99",
+  "phone": "+99 (99) 9.9999-9999",
+  "birth_date": "25/09/1951",
+  "system_wallet_number": "123",
+  "company_id": "JEDI",
+  "payer": true
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">body</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Luke Skywalker</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">email</span><span class="p">:</span> <span class="dl">"</span><span class="s2">luke@jedi.com</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">password</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ultimo-jedi@123</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">passwordConfirmation</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ultimo-jedi@123</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">cpf</span><span class="p">:</span> <span class="dl">"</span><span class="s2">786.985.230-99</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">phone</span><span class="p">:</span> <span class="dl">"</span><span class="s2">+99 (99) 9.9999-9999</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">birth_date</span><span class="p">:</span> <span class="dl">"</span><span class="s2">25/09/1951</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">system_wallet_number</span><span class="p">:</span> <span class="dl">"</span><span class="s2">123</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">company_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">JEDI</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">payer</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="kd">const</span> <span class="nx">apiResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span>
+  <span class="dl">"</span><span class="s2">https://api.lab-saude.com/tenants/users</span><span class="dl">"</span><span class="p">,</span>
+  <span class="nx">body</span><span class="p">,</span>
+  <span class="p">{</span>
+    <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">x_tenant_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">homolog</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">}</span>
+<span class="p">);</span>
+</code></pre></div>
+<blockquote>
+<p>O comando acima retorna um JSON com a seguinte estrutura:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Luke Skywalker"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cpf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"786.985.230-99"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"luke@jedi.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e21a8cf0-0580-4a1a-8125-da129f64d128"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+99 (99) 9.9999-9999"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"may-the-force-be-with-you"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Neste endpoint é possível criar uma conta para pacientes pagantes. Ou seja, aqueles que poderão utilizar o aplicativo da Lab Saúde.</p>
+
+<p>É necessário passar algumas informações básicas para que a pessoa tenha sua conta cadastrada no banco da Lab, assim como integrado com as parceiras do ecossistema Lab Saúde.</p>
+<h3 id='objeto-de-resposta-descomplicado-3'>Objeto de resposta descomplicado</h3>
+<table><thead>
+<tr>
+<th>Campo</th>
+<th>Descrição</th>
+<th>Tipo</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status</td>
+<td>O status do request HTTP</td>
+<td>Inteiro</td>
+</tr>
+<tr>
+<td>response</td>
+<td>Objeto contendo informações do paciente</td>
+<td>Objeto</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nome do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>cpf</td>
+<td>cpf do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>email</td>
+<td>E-mail do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>ID do paciente no banco da Lab</td>
+<td>UUID</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>Número de telefone do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>token</td>
+<td>Token que será utilizado em requests futuros</td>
+<td>String</td>
+</tr>
+</tbody></table>
+<h2 id='criar-um-paciente-gratuito'>Criar um paciente gratuito</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"fullName"</span><span class="p">:</span> <span class="s">"Baby Yoda"</span><span class="p">,</span>
+  <span class="s">"email"</span><span class="p">:</span> <span class="s">"baby.yoda@jedi.com"</span><span class="p">,</span>
+  <span class="s">"password"</span><span class="p">:</span> <span class="s">"1234"</span><span class="p">,</span>
+  <span class="s">"passwordConfirmation"</span><span class="p">:</span> <span class="s">"1234"</span><span class="p">,</span>
+  <span class="s">"CPF"</span><span class="p">:</span> <span class="s">"522.803.300-91"</span><span class="p">,</span>
+  <span class="s">"cellPhone"</span><span class="p">:</span> <span class="s">"+99 (99) 9.9999-9999"</span>
+<span class="p">}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"x_tenant_id"</span><span class="p">:</span> <span class="s">"homolog"</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">'https://api.lab-saude.com/tenants/users/free'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> POST <span class="s1">'https://api.lab-saude.com/tenants/users/free'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<span class="nt">--data-raw</span> <span class="s1">'{
+  "fullName": "Baby Yoda",
+  "email": "baby.yoda@jedi.com",
+  "password": "1234",
+  "passwordConfirmation": "1234",
+  "CPF": "522.803.300-91",
+  "cellPhone": "+99 (99) 9.9999-9999"
+}'</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">body</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">fullName</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Baby Yoda</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">email</span><span class="p">:</span> <span class="dl">"</span><span class="s2">baby.yoda@jedi.com</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">password</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1234</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">passwordConfirmation</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1234</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">CPF</span><span class="p">:</span> <span class="dl">"</span><span class="s2">522.803.300-91</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">cellPhone</span><span class="p">:</span> <span class="dl">"</span><span class="s2">+99 (99) 9.9999-9999</span><span class="dl">"</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="kd">const</span> <span class="nx">apiResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span>
+  <span class="dl">"</span><span class="s2">https://api.lab-saude.com/tenants/users/free</span><span class="dl">"</span><span class="p">,</span>
+  <span class="nx">body</span><span class="p">,</span>
+  <span class="p">{</span>
+    <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">x_tenant_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">homolog</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">}</span>
+<span class="p">);</span>
+</code></pre></div>
+<blockquote>
+<p>O comando acima retorna um JSON com a seguinte estrutura:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Baby Yoda"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cpf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"522.803.300-91"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"baby.yoda@jedi.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9d17d3bd-4a78-43fa-8291-795ff27e0d2a"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+99 (99) 9.9999-9999"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"may-the-force-be-with-you"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Neste endpoint é possível criar uma conta para pacientes gratuitos. Ou seja, aqueles que poderão utilizar somente o sistema para pacientes gratuitos da Lab Saúde.</p>
+
+<p>Assim como no endpoint anterior, são necessárias informações básicas para o cadastro do paciente no banco. Diferente do paciente pago, o paciente gratuito não é integrado com as marcas parceiras do ecossistema Lab. Por isso, são enviadas menos informações nesse request.</p>
+<h3 id='objeto-de-resposta-descomplicado-4'>Objeto de resposta descomplicado</h3>
+<table><thead>
+<tr>
+<th>Campo</th>
+<th>Descrição</th>
+<th>Tipo</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status</td>
+<td>O status do request HTTP</td>
+<td>Inteiro</td>
+</tr>
+<tr>
+<td>response</td>
+<td>Objeto contendo informações do paciente</td>
+<td>Objeto</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nome do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>cpf</td>
+<td>cpf do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>email</td>
+<td>E-mail do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>ID do paciente no banco da Lab</td>
+<td>UUID</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>Número de telefone do paciente</td>
+<td>String</td>
+</tr>
+<tr>
+<td>token</td>
+<td>Token que será utilizado em requests futuros</td>
+<td>String</td>
+</tr>
+</tbody></table>
+<h2 id='criar-varios-pacientes-pagos-de-uma-so-vez'>Criar vários pacientes pagos de uma só vez</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">payload</span><span class="o">=</span><span class="p">{}</span>
+<span class="n">files</span><span class="o">=</span><span class="p">[</span>
+  <span class="p">(</span><span class="s">'file'</span><span class="p">,(</span><span class="s">'Exemplo de CSV para registro de usuários na Lab Saúde'</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s">'/path/até/o/arquivo/Exemplo de CSV para registro de usuários na Lab Saúde'</span><span class="p">,</span><span class="s">'rb'</span><span class="p">),</span><span class="s">'text/csv'</span><span class="p">))</span>
+<span class="p">]</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"x_tenant_id"</span><span class="p">:</span> <span class="s">"homolog"</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://homolog.api.lab-saude.com/messages/user-register-email/lab-saude"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> POST <span class="s1">'https://api.lab-saude.com/doctors/login/clinics-medic'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<span class="nt">--data-raw</span> <span class="s1">'{
+    "email": "email-do-profissional-ou-clinica-vem-aqui@mail.com",
+    "password": "senha-do-profissional-ou-clinica-vem-aqui"
+}'</span>
+
+curl <span class="nt">--location</span> <span class="nt">--request</span> POST <span class="s1">'https://homolog.api.lab-saude.com/messages/user-register-email/lab-saude'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
+<span class="nt">--form</span> <span class="s1">'file=@"/path/até/o/arquivo/Exemplo de CSV para registro de usuários na Lab Saúde"'</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">FormData</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">form-data</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">fs</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">();</span>
+
+<span class="nx">data</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span>
+  <span class="dl">"</span><span class="s2">file</span><span class="dl">"</span><span class="p">,</span>
+  <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span>
+    <span class="dl">"</span><span class="s2">/path/até/o/arquivo/Exemplo de CSV para registro de usuários na Lab Saúde</span><span class="dl">"</span>
+  <span class="p">)</span>
+<span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span>
+  <span class="dl">"</span><span class="s2">https://homolog.api.lab-saude.com/messages/user-register-email/lab-saude</span><span class="dl">"</span><span class="p">,</span>
+  <span class="nx">data</span><span class="p">,</span>
+  <span class="p">{</span>
+    <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">x_tenant_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">homolog</span><span class="dl">"</span><span class="p">,</span>
+      <span class="p">...</span><span class="nx">data</span><span class="p">.</span><span class="nx">getHeaders</span><span class="p">(),</span>
+    <span class="p">},</span>
+  <span class="p">}</span>
+<span class="p">);</span>
+</code></pre></div>
+<blockquote>
+<p>O comando acima retorna um status 204 (no content). O que significa que não há corpo de retorno.</p>
+</blockquote>
+
+<p>Às vezes, quando temos que realizar muitos cadastros de uma vez pode ser útil utilizar este endpoint.</p>
+
+<p>A API recebe um CSV que segue o padrão:</p>
+
+<table><thead>
+<tr>
+<th>Nome</th>
+<th>E-mail</th>
+<th>CPF</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Darth Vader</td>
+<td>darth.vader@sith.com</td>
+<td>602.424.060-09</td>
+</tr>
+<tr>
+<td>Emperor Palpatine</td>
+<td>emperor@sith.com</td>
+<td>621.077.290-00</td>
+</tr>
+<tr>
+<td>Darth Maul</td>
+<td>darth.maul@sith.com</td>
+<td>842.857.610-68</td>
+</tr>
+<tr>
+<td>General Grievous</td>
+<td>general.grievous@sith.com</td>
+<td>883.615.030-64</td>
+</tr>
+<tr>
+<td>Conde Dookan</td>
+<td>conde.dookan@sith.com</td>
+<td>545.084.210-40</td>
+</tr>
+<tr>
+<td>General Hux</td>
+<td>general.hux@sith.com</td>
+<td>709.482.110-75</td>
+</tr>
+</tbody></table>
+
+<p>As informações referentes ao login no aplicativo da Lab Saúde serão enviadas por e-mail para os pacientes cadastrados.</p>
 <h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
