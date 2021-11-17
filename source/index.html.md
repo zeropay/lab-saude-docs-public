@@ -662,7 +662,7 @@ import requests
 
 payload={}
 files=[
-  ('file',('Exemplo de CSV para registro de usuários na Lab Saúde', open('/path/até/o/arquivo/Exemplo de CSV para registro de usuários na Lab Saúde','rb'),'text/csv'))
+  ('file', ('Exemplo de CSV para registro de usuários na Lab Saúde', open('/path/até/o/arquivo/Exemplo de CSV para registro de usuários na Lab Saúde','rb'),'text/csv'))
 ]
 headers = {"x_tenant_id": "homolog"}
 
@@ -1005,7 +1005,7 @@ A API retorna um array contendo todos os pacientes cadastrados no banco (tanto p
 | ----- | ------------------ | ---------------- |
 | -     | Array de pacientes | Array[Pacientes] |
 
-## Listar todos os pacientes
+## Modificar senha
 
 ```python
 import requests
@@ -1072,6 +1072,80 @@ A API retorna uma mensagem padrão de sucesso avisando que o e-mail será enviad
 | Campo   | Descrição                                                    | Tipo   |
 | ------- | ------------------------------------------------------------ | ------ |
 | message | Mensagem indicando que um e-mail será enviado para o usuário | String |
+
+## Modificar imagem de perfil
+
+```python
+import requests
+
+user_id = "uuid-do-paciente-aqui"
+
+files=[
+  ('profile_image', ('nome-da-imagem.jpeg', open('/path/para/a/imagem/nome-da-imagem.jpg','rb'),'image/jpeg'))
+]
+
+headers = {
+  'x_tenant_id': 'homolog',
+  'x_auth_token': 'may-the-force-be-with-you'
+}
+
+response = requests.put('https://homolog.api.lab-saude.com/tenants/users/profile-image/' + user_id, headers=headers, files=files)
+```
+
+```shell
+curl --location --request PUT 'https://homolog.api.lab-saude.com/tenants/users/profile-image/uuid-do-paciente-aqui' \
+-H 'x_tenant_id: homolog' \
+-H 'x_auth_token: may-the-force-be-with-you' \
+--form 'profile_image=@"/path/para/a/imagem/nome-da-imagem.jpg"'
+```
+
+```javascript
+const axios = require("axios");
+const FormData = require("form-data");
+const fs = require("fs");
+const data = new FormData();
+data.append(
+  "profile_image",
+  fs.createReadStream("/path/para/a/imagem/nome-da-imagem.jpg")
+);
+
+const apiResponse = await axios.put(
+  "https://homolog.api.lab-saude.com/tenants/users/profile-image",
+  data,
+  {
+    headers: {
+      x_tenant_id: "homolog",
+      x_auth_token: "may-the-force-be-with-you",
+      ...data.getHeaders(),
+    },
+  }
+);
+```
+
+> O comando acima retorna um JSON com a seguinte estrutura:
+
+```json
+{
+  "status": 200,
+  "response": {
+    "userImage": "link-para-a-nova-imagem-de-perfil"
+  }
+}
+```
+
+De forma simples e rápida é possível modificar a imagem de perfil de um paciente.
+
+Basta apenas enviar o arquivo da nova imagem em JPEG, com o nome `profile_image` para este endpoint.
+
+A API retorna um objeto contendo um link para a nova imagem de perfil do paciente no S3 da AWS.
+
+### Objeto de resposta descomplicado
+
+| Campo     | Descrição                                 | Tipo   |
+| --------- | ----------------------------------------- | ------ |
+| status    | Status da requisição HTTP                 | Número |
+| response  | Objeto de resposta                        | Objeto |
+| userImage | Link para a nova imagem do paciente no S3 | String |
 
 # Kittens
 
