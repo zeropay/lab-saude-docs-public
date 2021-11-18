@@ -1470,54 +1470,98 @@ Com isso em mente, esse endpoint recebe algumas informações básicas para a cr
 
 Estes profissionais com o cadastro incompleto são chamados de PROTO-profissionais. Mais tarde, eles poderão completar seu cadastro dentro do [sistema profissional](https://profissionais.lab-saude.com), ou pela própria API.
 
-## Criar vários pacientes pagos de uma só vez
+## Criar horários de atendimento de um profissional
 
 ```python
 import requests
 
-payload={}
-files=[
-  ('file', ('Exemplo de CSV para registro de usuários na Lab Saúde', open('/path/até/o/arquivo/Exemplo de CSV para registro de usuários na Lab Saúde','rb'),'text/csv'))
-]
-headers = {"x_tenant_id": "homolog"}
+body = {
+	"schedules": [
+		{
+			"day": "Segunda-feira",
+			"start_hour": "08:00",
+			"end_hour": "12:00"
+		},
+		{
+			"day": "Terça-feira",
+			"start_hour": "08:00",
+			"end_hour": "12:00"
+		},
+		{
+			"day": "Segunda-feira",
+			"start_hour": "13:00",
+			"end_hour": "15:00"
+		}
+	]
+}
 
-response = requests.post("https://homolog.api.lab-saude.com/messages/user-register-email/lab-saude", headers=headers, data=payload, files=files)
+
+headers = {"x_tenant_id": "homolog", "x_auth_token": "meu-precioso"}
+
+professional_id = "ID-do-profissional-aqui"
+
+response = requests.post('https://homolog.api.lab-saude.com/doctors/medics/create-schedule/' + professional_id, data=body, headers=headers)
 ```
 
 ```shell
-curl --location --request POST 'htps://homolog.api.lab-saude.com/doctors/login/clinics-medic' \
+curl --location --request POST 'https://homolog.api.lab-saude.com/doctors/medics/create-schedule/ID-do-profissional-aqui' \
 -H 'x_tenant_id: homolog' \
+-H 'x_auth_token: meu-precioso' \
 -H 'Content-Type: application/json' \
 --data-raw '{
-    "email": "email-do-profissional-ou-clinica-vem-aqui@mail.com",
-    "password": "senha-do-profissional-ou-clinica-vem-aqui"
-}'
-
-curl --location --request POST 'https://homolog.api.lab-saude.com/messages/user-register-email/lab-saude' \
--H 'x_tenant_id: homolog' \
---form 'file=@"/path/até/o/arquivo/Exemplo de CSV para registro de usuários na Lab Saúde"'
+	"schedules": [
+		{
+			"day": "Segunda-feira",
+			"start_hour": "08:00",
+			"end_hour": "12:00"
+		},
+		{
+			"day": "Terça-feira",
+			"start_hour": "08:00",
+			"end_hour": "12:00"
+		},
+		{
+			"day": "Segunda-feira",
+			"start_hour": "13:00",
+			"end_hour": "15:00"
+		}
+	]
+}
+'
 ```
 
 ```javascript
 const axios = require("axios");
-const FormData = require("form-data");
-const fs = require("fs");
-const data = new FormData();
 
-data.append(
-  "file",
-  fs.createReadStream(
-    "/path/até/o/arquivo/Exemplo de CSV para registro de usuários na Lab Saúde"
-  )
-);
+const body = {
+  schedules: [
+    {
+      day: "Segunda-feira",
+      start_hour: "08:00",
+      end_hour: "12:00",
+    },
+    {
+      day: "Terça-feira",
+      start_hour: "08:00",
+      end_hour: "12:00",
+    },
+    {
+      day: "Segunda-feira",
+      start_hour: "13:00",
+      end_hour: "15:00",
+    },
+  ],
+};
 
-const response = await axios.get(
-  "https://homolog.api.lab-saude.com/messages/user-register-email/lab-saude",
-  data,
+const professionalId = "ID-do-profissional-aqui";
+
+const apiResponse = await axios.post(
+  `https://homolog.api.lab-saude.com/doctors/medics/create-schedule/${professionalId}`,
+  body,
   {
     headers: {
       x_tenant_id: "homolog",
-      ...data.getHeaders(),
+      x_auth_token: "meu-precioso",
     },
   }
 );
@@ -1525,20 +1569,13 @@ const response = await axios.get(
 
 > O comando acima retorna um status 204 (no content). O que significa que não há corpo de retorno.
 
-Às vezes, quando temos que realizar muitos cadastros de uma vez pode ser útil utilizar este endpoint.
+É importante observar que somente profissionais que atendem PARCIALMENTE à Lab Saúde, ou seja, que não tem disponibilidade total, podem criar um horário de atendimento.
 
-A API recebe um CSV que segue o padrão:
+Uma vez que o profissional foi cadastrado com disponibilidade parcial, é preciso cadastrar os seus horários de atendimento, para que o profissional consiga realizar consultas na plataforma da Lab nos horários cadastrados.
 
-| Nome              | E-mail                    | CPF            |
-| ----------------- | ------------------------- | -------------- |
-| Darth Vader       | darth.vader@sith.com      | 602.424.060-09 |
-| Emperor Palpatine | emperor@sith.com          | 621.077.290-00 |
-| Darth Maul        | darth.maul@sith.com       | 842.857.610-68 |
-| General Grievous  | general.grievous@sith.com | 883.615.030-64 |
-| Conde Dookan      | conde.dookan@sith.com     | 545.084.210-40 |
-| General Hux       | general.hux@sith.com      | 709.482.110-75 |
-
-As informações referentes ao login no aplicativo da Lab Saúde serão enviadas por e-mail para os pacientes cadastrados.
+<aside class="notice">
+Profissionais que tenham a propriedade <code>disponibility</code> cadastrada como <code>Total</code> terão, por padrão, todos os horários disponíveis para atendimento na Lab Saúde.
+</aside>
 
 ## Listar paciente pelo id
 
