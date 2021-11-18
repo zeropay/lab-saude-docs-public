@@ -1028,6 +1028,7 @@ response = requests.put('https://homolog.api.lab-saude.com/tenants/users/recover
 curl --location --request PUT 'https://homolog.api.lab-saude.com/tenants/users/recovery-password' \
 -H 'x_tenant_id: homolog' \
 -H 'x_auth_token: may-the-force-be-with-you' \
+-H 'Content-Type: application/json'
 --data-raw '{
     "cpf": "786.985.230-99",
     "email": "luke@jedi.com"
@@ -1498,9 +1499,9 @@ body = {
 
 headers = {"x_tenant_id": "homolog", "x_auth_token": "meu-precioso"}
 
-professional_id = "ID-do-profissional-aqui"
+user_id = "ID-do-profissional-aqui"
 
-response = requests.post('https://homolog.api.lab-saude.com/doctors/medics/create-schedule/' + professional_id, data=body, headers=headers)
+response = requests.post('https://homolog.api.lab-saude.com/doctors/medics/create-schedule/' + user_id, data=body, headers=headers)
 ```
 
 ```shell
@@ -1553,10 +1554,10 @@ const body = {
   ],
 };
 
-const professionalId = "ID-do-profissional-aqui";
+const userId = "ID-do-profissional-aqui";
 
 const apiResponse = await axios.post(
-  `https://homolog.api.lab-saude.com/doctors/medics/create-schedule/${professionalId}`,
+  `https://homolog.api.lab-saude.com/doctors/medics/create-schedule/${userId}`,
   body,
   {
     headers: {
@@ -1659,38 +1660,51 @@ A API retorna um objeto contendo algumas informações, como se sua disponibilid
 | dates              | Datas das próximas consultas do profissional na Lab Saúde                                      | Array[Timestamps] |
 | disponibilities    | Horários cadastrados como disponíveis no banco na hora da criação dos horários do profissional | Objeto            |
 
-## Listar paciente pelo CPF
+## Modificar disponibilidade de um profissional
 
 ```python
 import requests
 
-user_cpf = "cpf-do-usuario-vem-aqui"
+user_id = "ID-do-usuario-vem-aqui"
+
+payload = {
+	"disponibility": "Total"
+}
 
 headers = {
   'x_tenant_id': 'homolog',
-  'x_auth_token': 'may-the-force-be-with-you'
+  'x_auth_token': 'meu-precioso'
 }
 
-response = requests.get("https://homolog.api.lab-saude.com/tenants/users/" + user_cpf, headers=headers)
+response = requests.put("https://homolog.api.lab-saude.com/doctors/medics/disponibility/" + user_id, data=payload, headers=headers)
 ```
 
 ```shell
-curl --location --request GET 'https://homolog.api.lab-saude.com/tenants/users/cpf-do-usuario-vem-aqui' \
+curl --location --request PUT 'https://homolog.api.lab-saude.com/doctors/medics/disponibility/ID-do-usuario-vem-aqui' \
 -H 'x_tenant_id: homolog' \
--H 'x_auth_token: may-the-force-be-with-you'
+-H 'x_auth_token: meu-precioso' \
+-H 'Content-Type: application/json' \
+--data-raw '{
+	"disponibility": "Total"
+}'
 ```
 
 ```javascript
 const axios = require("axios");
 
-const userCpf = "cpf-do-usuario-vem-aqui";
+const userId = "ID-do-usuario-vem-aqui";
 
-const apiResponse = await axios.get(
-  `https://homolog.api.lab-saude.com/tenants/users/${userCpf}`,
+const body = {
+  disponibility: "Total",
+};
+
+const apiResponse = await axios.put(
+  `https://homolog.api.lab-saude.com/doctors/medics/disponibility/${userId}`,
+  body,
   {
     headers: {
       x_tenant_id: "homolog",
-      x_auth_token: "may-the-force-be-with-you",
+      x_auth_token: "meu-precioso",
     },
   }
 );
@@ -1700,177 +1714,46 @@ const apiResponse = await axios.get(
 
 ```json
 {
-  "id": "e21a8cf0-0580-4a1a-8125-da129f64d128",
-  "name": "Luke Skywalker",
-  "email": "luke@jedi.com",
-  "password": "senha-criptografada",
-  "cpf": "cpf-do-usuario-vem-aqui",
-  "phone": "+99 (99) 9.9999-9999",
-  "company_id": "JEDI",
-  "created_at": "1951-09-25T18:19:01.911+00:00",
-  "updated_at": "2021-11-18T18:19:01.911+00:00",
-  "system_wallet_number": "123",
-  "rg": null,
-  "mother_name": null,
-  "birth_date": "25/09/1951",
-  "gender": null,
-  "civil_state": null,
-  "profession": null,
-  "image_link": null,
-  "one_signal_id": null,
-  "payer": true,
-  "requires_more_info": false
+  "message": "Medic disponibility successfully changed"
 }
 ```
 
-De maneira similar ao endpoint anterior, este retorna as informações de um paciente específico, dependendo de qual CPF seja passado na rota.
+Este endpoint serve exclusivamente para modificarmos o tipo de disponibilidade de um profissional.
 
-A API retorna um objeto contendo todos os dados cadastrados no banco referentes ao paciente em questão.
+Caso queira que ela seja `Total`, basta adicionar isso no corpo do request, caso contrário, você só precisa adicionar `Parcial`.
 
-### Objeto de resposta descomplicado
+A API retorna uma mensagem indiciando o sucesso da ação.
 
-| Campo                | Descrição                                                                                                                                                  | Tipo           |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| id                   | ID do paciente no banco da Lab                                                                                                                             | UUID           |
-| name                 | Nome do paciente                                                                                                                                           | String         |
-| email                | E-mail do paciente                                                                                                                                         | String         |
-| password             | Senha do paciente criptografada utilizando Argon2                                                                                                          | String         |
-| cpf                  | CPF do paciente                                                                                                                                            | String         |
-| phone                | Número de telefone do paciente                                                                                                                             | String         |
-| company_id           | Identificador que referencia um paciente à uma empresa do ecossistema Lab                                                                                  | String         |
-| created_at           | Timestamp da data e hora de criação do paciente no banco                                                                                                   | Timestamp      |
-| updated_at           | Timestamp da data e hora da última atualização do paciente no banco                                                                                        | Timestamp      |
-| system_wallet_number | Caso seja um paciente pagante, recebe o número da carteira do paciente na System Saúde, parceira da Lab Saúde. Caso seja um paciente gratuito, recebe null | String ou null |
-| rg                   | R.G. do paciente                                                                                                                                           | String ou null |
-| mother_name          | Nome da mãe do paciente                                                                                                                                    | String ou null |
-| birth_date           | Data de nascimento do paciente                                                                                                                             | String ou null |
-| gender               | Gênero do paciente                                                                                                                                         | String ou null |
-| civil_state          | Estado civil do paciente                                                                                                                                   | String ou null |
-| profession           | Profissão do paciente                                                                                                                                      | String ou null |
-| image_link           | Link para imagem de perfil do paciente                                                                                                                     | String ou null |
-| one_signal_id        | ID do paciente no OneSignal, utilizado para enviar push notifications                                                                                      | String ou null |
-| payer                | Booleano que informa se o paciente é ou não um paciente pagante                                                                                            | Booleano       |
-| requires_more_info   | Booleano que informa se o paciente precisa adicionar mais informações para que seu cadastro fique completo                                                 | Booleano       |
+<aside class="notice">
+Caso você opte por trocar para disponibilidade <code>parcial</code>, lembre de <a href="#criar-horarios-de-atendimento-de-um-profissional">criar um horário de atendimento</a> na Lab Saúde.
+</aside>
 
-## Listar todos os pacientes
+## Modificar profissional
 
 ```python
 import requests
 
-headers = {
-  'x_tenant_id': 'homolog',
-  'x_auth_token': 'may-the-force-be-with-you'
-}
-
-response = requests.get('https://homolog.api.lab-saude.com/tenants/users', headers=headers)
-```
-
-```shell
-curl --location --request GET 'https://homolog.api.lab-saude.com/tenants/users' \
--H 'x_tenant_id: homolog' \
--H 'x_auth_token: may-the-force-be-with-you'
-```
-
-```javascript
-const axios = require("axios");
-
-const apiResponse = await axios.post(
-  "https://homolog.api.lab-saude.com/tenants/users",
-  {
-    headers: {
-      x_tenant_id: "homolog",
-      x_auth_token: "may-the-force-be-with-you",
-    },
-  }
-);
-```
-
-> O comando acima retorna um JSON com a seguinte estrutura:
-
-```json
-[
-  {
-    "id": "e21a8cf0-0580-4a1a-8125-da129f64d128",
-    "name": "Luke Skywalker",
-    "email": "luke@jedi.com",
-    "password": "senha-criptografada",
-    "cpf": "786.985.230-99",
-    "phone": "+99 (99) 9.9999-9999",
-    "company_id": "JEDI",
-    "created_at": "1951-09-25T18:19:01.911+00:00",
-    "updated_at": "2021-11-18T18:19:01.911+00:00",
-    "system_wallet_number": "123",
-    "rg": null,
-    "mother_name": null,
-    "birth_date": "25/09/1951",
-    "gender": null,
-    "civil_state": null,
-    "profession": null,
-    "image_link": null,
-    "one_signal_id": null,
-    "payer": true,
-    "requires_more_info": false
-  },
-  {
-    "id": "9d17d3bd-4a78-43fa-8291-795ff27e0d2a",
-    "name": "Baby Yoda",
-    "email": "baby.yoda@jedi.com",
-    "password": "senha-criptografada",
-    "cpf": "522.803.300-91",
-    "phone": "+99 (99) 9.9999-9999",
-    "company_id": "lab-saude",
-    "created_at": "1972-10-21T18:31:57.298+00:00",
-    "updated_at": "2021-11-18T18:31:57.298+00:00",
-    "system_wallet_number": null,
-    "rg": null,
-    "mother_name": null,
-    "birth_date": null,
-    "gender": null,
-    "civil_state": null,
-    "profession": null,
-    "image_link": null,
-    "one_signal_id": null,
-    "payer": false,
-    "requires_more_info": false
-  }
-]
-```
-
-Este endpoint serve para listar todos os pacientes cadastrados no banco. Feito especialmente para o ambiente de testes, é uma boa ferramenta para realizar queries que atuem sobre todos os pacientes e também para realizar debug durante o desenvolvimento.
-
-A API retorna um array contendo todos os pacientes cadastrados no banco (tanto pagantes como gratuitos), assim como as suas informações.
-
-### Objeto de resposta descomplicado
-
-| Campo | Descrição          | Tipo             |
-| ----- | ------------------ | ---------------- |
-| -     | Array de pacientes | Array[Pacientes] |
-
-## Modificar senha
-
-```python
-import requests
+user_id = "ID-do-profissional-vem-aqui"
 
 payload = {
-  "cpf": "786.985.230-99",
-  "email": "luke@jedi.com"
+    "clinic_id": "bolseiros-clinic"
 }
 
 headers = {
   'x_tenant_id': 'homolog',
-  'x_auth_token': 'may-the-force-be-with-you'
+  'x_auth_token': 'meu-precioso'
 }
 
-response = requests.put('https://homolog.api.lab-saude.com/tenants/users/recovery-password', data=payload, headers=headers)
+response = requests.put('https://homolog.api.lab-saude.com/doctors/medics/' + user_id, data=payload, headers=headers)
 ```
 
 ```shell
-curl --location --request PUT 'https://homolog.api.lab-saude.com/tenants/users/recovery-password' \
+curl --location --request PUT 'https://homolog.api.lab-saude.com/doctors/medics/ID-do-profissional-vem-aqui' \
 -H 'x_tenant_id: homolog' \
--H 'x_auth_token: may-the-force-be-with-you' \
+-H 'x_auth_token: meu-precioso' \
+-H 'Content-Type: application/json' \
 --data-raw '{
-    "cpf": "786.985.230-99",
-    "email": "luke@jedi.com"
+    "clinic_id": "bolseiros-clinic"
 }'
 ```
 
@@ -1878,17 +1761,18 @@ curl --location --request PUT 'https://homolog.api.lab-saude.com/tenants/users/r
 const axios = require("axios");
 
 const body = {
-  cpf: "786.985.230-99",
-  email: "luke@jedi.com",
+  clinic_id: "bolseiros-clinic",
 };
 
+const userId = "ID-do-profissional-vem-aqui";
+
 const apiResponse = await axios.put(
-  "https://homolog.api.lab-saude.com/tenants/users/recovery-password",
+  `https://homolog.api.lab-saude.com/doctors/medics/${userId}`,
   body,
   {
     headers: {
       x_tenant_id: "homolog",
-      x_auth_token: "may-the-force-be-with-you",
+      x_auth_token: "meu-precioso",
     },
   }
 );
@@ -1898,94 +1782,35 @@ const apiResponse = await axios.put(
 
 ```json
 {
-  "message": "An e-mail will be sent."
+  "id": "ID-do-profissional-vem-aqui",
+  "name": "Bilbo Bolseiro",
+  "email": "bilbo@lotr.com",
+  "type": "CRP",
+  "state": "23",
+  "number": "123456",
+  "accepts_presential_appointments": true,
+  "accepts_online_appointments": true,
+  "office_state": "Terra Média",
+  "office_city": "Condado",
+  "office_neighbor": "Vila dos Hobbits",
+  "office_zip_code": "99.999-999",
+  "office_street": "Avenida Hobbits de Souza",
+  "office_number": "111",
+  "image_link": null,
+  "appointment_price": "50.00",
+  "online_appointment_price": 70,
+  "clinic_id": "bolseiros-clinic",
+  "disponibility": "Total",
+  "requires_more_info": false,
+  "company": "lab-saude",
+  "specialties": ["Viagens", "Anéis"]
 }
 ```
 
-Por meio deste endpoint é possível recuperar a senha de um paciente.
+Por meio deste endpoint é possível modificar qualquer informação padrão de um profissional.
 
-Basta apenas enviar o e-mail e cpf do paciente em questão. Dentro de alguns minutos ele receberá um e-mail explicando como recuperar sua senha.
+Tudo o que você precisa fazer é enviar no corpo da requisição a informação a ser modificada.
 
-A API retorna uma mensagem padrão de sucesso avisando que o e-mail será enviado.
-
-### Objeto de resposta descomplicado
-
-| Campo   | Descrição                                                    | Tipo   |
-| ------- | ------------------------------------------------------------ | ------ |
-| message | Mensagem indicando que um e-mail será enviado para o usuário | String |
-
-## Modificar imagem de perfil
-
-```python
-import requests
-
-user_id = "uuid-do-paciente-aqui"
-
-files=[
-  ('profile_image', ('nome-da-imagem.jpeg', open('/path/para/a/imagem/nome-da-imagem.jpg','rb'),'image/jpeg'))
-]
-
-headers = {
-  'x_tenant_id': 'homolog',
-  'x_auth_token': 'may-the-force-be-with-you'
-}
-
-response = requests.put('https://homolog.api.lab-saude.com/tenants/users/profile-image/' + user_id, headers=headers, files=files)
-```
-
-```shell
-curl --location --request PUT 'https://homolog.api.lab-saude.com/tenants/users/profile-image/uuid-do-paciente-aqui' \
--H 'x_tenant_id: homolog' \
--H 'x_auth_token: may-the-force-be-with-you' \
---form 'profile_image=@"/path/para/a/imagem/nome-da-imagem.jpg"'
-```
-
-```javascript
-const axios = require("axios");
-const FormData = require("form-data");
-const fs = require("fs");
-const data = new FormData();
-data.append(
-  "profile_image",
-  fs.createReadStream("/path/para/a/imagem/nome-da-imagem.jpg")
-);
-
-const apiResponse = await axios.put(
-  "https://homolog.api.lab-saude.com/tenants/users/profile-image",
-  data,
-  {
-    headers: {
-      x_tenant_id: "homolog",
-      x_auth_token: "may-the-force-be-with-you",
-      ...data.getHeaders(),
-    },
-  }
-);
-```
-
-> O comando acima retorna um JSON com a seguinte estrutura:
-
-```json
-{
-  "status": 200,
-  "response": {
-    "userImage": "link-para-a-nova-imagem-de-perfil"
-  }
-}
-```
-
-De forma simples e rápida é possível modificar a imagem de perfil de um paciente.
-
-Basta apenas enviar o arquivo da nova imagem em JPEG, com o nome `profile_image` para este endpoint.
-
-A API retorna um objeto contendo um link para a nova imagem de perfil do paciente no S3 da AWS.
-
-### Objeto de resposta descomplicado
-
-| Campo     | Descrição                                 | Tipo   |
-| --------- | ----------------------------------------- | ------ |
-| status    | Status da requisição HTTP                 | Número |
-| response  | Objeto de resposta                        | Objeto |
-| userImage | Link para a nova imagem do paciente no S3 | String |
+A API retorna o objeto do profissional com suas informações atualizadas.
 
 <!-- TODO Add HTTP Request seguindo exemplo do tópico Kittens -->
