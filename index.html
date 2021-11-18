@@ -382,16 +382,10 @@
                     <a href="#listar-horarios-disponiveis-de-um-profissional" class="toc-h2 toc-link" data-title="Listar horários disponíveis de um profissional">Listar horários disponíveis de um profissional</a>
                   </li>
                   <li>
-                    <a href="#listar-paciente-pelo-cpf-2" class="toc-h2 toc-link" data-title="Listar paciente pelo CPF">Listar paciente pelo CPF</a>
+                    <a href="#modificar-disponibilidade-de-um-profissional" class="toc-h2 toc-link" data-title="Modificar disponibilidade de um profissional">Modificar disponibilidade de um profissional</a>
                   </li>
                   <li>
-                    <a href="#listar-todos-os-pacientes-2" class="toc-h2 toc-link" data-title="Listar todos os pacientes">Listar todos os pacientes</a>
-                  </li>
-                  <li>
-                    <a href="#modificar-senha-2" class="toc-h2 toc-link" data-title="Modificar senha">Modificar senha</a>
-                  </li>
-                  <li>
-                    <a href="#modificar-imagem-de-perfil-2" class="toc-h2 toc-link" data-title="Modificar imagem de perfil">Modificar imagem de perfil</a>
+                    <a href="#modificar-profissional" class="toc-h2 toc-link" data-title="Modificar profissional">Modificar profissional</a>
                   </li>
               </ul>
           </li>
@@ -1820,6 +1814,7 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 </code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> PUT <span class="s1">'https://homolog.api.lab-saude.com/tenants/users/recovery-password'</span> <span class="se">\</span>
 <span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
 <span class="nt">-H</span> <span class="s1">'x_auth_token: may-the-force-be-with-you'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span>
 <span class="nt">--data-raw</span> <span class="s1">'{
     "cpf": "786.985.230-99",
     "email": "luke@jedi.com"
@@ -2346,9 +2341,9 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"x_tenant_id"</span><span class="p">:</span> <span class="s">"homolog"</span><span class="p">,</span> <span class="s">"x_auth_token"</span><span class="p">:</span> <span class="s">"meu-precioso"</span><span class="p">}</span>
 
-<span class="n">professional_id</span> <span class="o">=</span> <span class="s">"ID-do-profissional-aqui"</span>
+<span class="n">user_id</span> <span class="o">=</span> <span class="s">"ID-do-profissional-aqui"</span>
 
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">'https://homolog.api.lab-saude.com/doctors/medics/create-schedule/'</span> <span class="o">+</span> <span class="n">professional_id</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">'https://homolog.api.lab-saude.com/doctors/medics/create-schedule/'</span> <span class="o">+</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> POST <span class="s1">'https://homolog.api.lab-saude.com/doctors/medics/create-schedule/ID-do-profissional-aqui'</span> <span class="se">\</span>
 <span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
 <span class="nt">-H</span> <span class="s1">'x_auth_token: meu-precioso'</span> <span class="se">\</span>
@@ -2395,10 +2390,10 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
   <span class="p">],</span>
 <span class="p">};</span>
 
-<span class="kd">const</span> <span class="nx">professionalId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">ID-do-profissional-aqui</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">userId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">ID-do-profissional-aqui</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">apiResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span>
-  <span class="s2">`https://homolog.api.lab-saude.com/doctors/medics/create-schedule/</span><span class="p">${</span><span class="nx">professionalId</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+  <span class="s2">`https://homolog.api.lab-saude.com/doctors/medics/create-schedule/</span><span class="p">${</span><span class="nx">userId</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
   <span class="nx">body</span><span class="p">,</span>
   <span class="p">{</span>
     <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
@@ -2505,295 +2500,42 @@ Profissionais que tenham a propriedade <code>disponibility</code> cadastrada com
 <td>Objeto</td>
 </tr>
 </tbody></table>
-<h2 id='listar-paciente-pelo-cpf-2'>Listar paciente pelo CPF</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<h2 id='modificar-disponibilidade-de-um-profissional'>Modificar disponibilidade de um profissional</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
-<span class="n">user_cpf</span> <span class="o">=</span> <span class="s">"cpf-do-usuario-vem-aqui"</span>
-
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">'x_tenant_id'</span><span class="p">:</span> <span class="s">'homolog'</span><span class="p">,</span>
-  <span class="s">'x_auth_token'</span><span class="p">:</span> <span class="s">'may-the-force-be-with-you'</span>
-<span class="p">}</span>
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"https://homolog.api.lab-saude.com/tenants/users/"</span> <span class="o">+</span> <span class="n">user_cpf</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> GET <span class="s1">'https://homolog.api.lab-saude.com/tenants/users/cpf-do-usuario-vem-aqui'</span> <span class="se">\</span>
-<span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
-<span class="nt">-H</span> <span class="s1">'x_auth_token: may-the-force-be-with-you'</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
-
-<span class="kd">const</span> <span class="nx">userCpf</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">cpf-do-usuario-vem-aqui</span><span class="dl">"</span><span class="p">;</span>
-
-<span class="kd">const</span> <span class="nx">apiResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span>
-  <span class="s2">`https://homolog.api.lab-saude.com/tenants/users/</span><span class="p">${</span><span class="nx">userCpf</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
-  <span class="p">{</span>
-    <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
-      <span class="na">x_tenant_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">homolog</span><span class="dl">"</span><span class="p">,</span>
-      <span class="na">x_auth_token</span><span class="p">:</span> <span class="dl">"</span><span class="s2">may-the-force-be-with-you</span><span class="dl">"</span><span class="p">,</span>
-    <span class="p">},</span>
-  <span class="p">}</span>
-<span class="p">);</span>
-</code></pre></div>
-<blockquote>
-<p>O comando acima retorna um JSON com a seguinte estrutura:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e21a8cf0-0580-4a1a-8125-da129f64d128"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Luke Skywalker"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"luke@jedi.com"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"senha-criptografada"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"cpf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cpf-do-usuario-vem-aqui"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+99 (99) 9.9999-9999"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"company_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JEDI"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1951-09-25T18:19:01.911+00:00"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-11-18T18:19:01.911+00:00"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"system_wallet_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"rg"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"mother_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"birth_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25/09/1951"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"gender"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"civil_state"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"profession"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"image_link"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"one_signal_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"payer"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"requires_more_info"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>De maneira similar ao endpoint anterior, este retorna as informações de um paciente específico, dependendo de qual CPF seja passado na rota.</p>
-
-<p>A API retorna um objeto contendo todos os dados cadastrados no banco referentes ao paciente em questão.</p>
-<h3 id='objeto-de-resposta-descomplicado-12'>Objeto de resposta descomplicado</h3>
-<table><thead>
-<tr>
-<th>Campo</th>
-<th>Descrição</th>
-<th>Tipo</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>id</td>
-<td>ID do paciente no banco da Lab</td>
-<td>UUID</td>
-</tr>
-<tr>
-<td>name</td>
-<td>Nome do paciente</td>
-<td>String</td>
-</tr>
-<tr>
-<td>email</td>
-<td>E-mail do paciente</td>
-<td>String</td>
-</tr>
-<tr>
-<td>password</td>
-<td>Senha do paciente criptografada utilizando Argon2</td>
-<td>String</td>
-</tr>
-<tr>
-<td>cpf</td>
-<td>CPF do paciente</td>
-<td>String</td>
-</tr>
-<tr>
-<td>phone</td>
-<td>Número de telefone do paciente</td>
-<td>String</td>
-</tr>
-<tr>
-<td>company_id</td>
-<td>Identificador que referencia um paciente à uma empresa do ecossistema Lab</td>
-<td>String</td>
-</tr>
-<tr>
-<td>created_at</td>
-<td>Timestamp da data e hora de criação do paciente no banco</td>
-<td>Timestamp</td>
-</tr>
-<tr>
-<td>updated_at</td>
-<td>Timestamp da data e hora da última atualização do paciente no banco</td>
-<td>Timestamp</td>
-</tr>
-<tr>
-<td>system_wallet_number</td>
-<td>Caso seja um paciente pagante, recebe o número da carteira do paciente na System Saúde, parceira da Lab Saúde. Caso seja um paciente gratuito, recebe null</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>rg</td>
-<td>R.G. do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>mother_name</td>
-<td>Nome da mãe do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>birth_date</td>
-<td>Data de nascimento do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>gender</td>
-<td>Gênero do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>civil_state</td>
-<td>Estado civil do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>profession</td>
-<td>Profissão do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>image_link</td>
-<td>Link para imagem de perfil do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>one_signal_id</td>
-<td>ID do paciente no OneSignal, utilizado para enviar push notifications</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>payer</td>
-<td>Booleano que informa se o paciente é ou não um paciente pagante</td>
-<td>Booleano</td>
-</tr>
-<tr>
-<td>requires_more_info</td>
-<td>Booleano que informa se o paciente precisa adicionar mais informações para que seu cadastro fique completo</td>
-<td>Booleano</td>
-</tr>
-</tbody></table>
-<h2 id='listar-todos-os-pacientes-2'>Listar todos os pacientes</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">'x_tenant_id'</span><span class="p">:</span> <span class="s">'homolog'</span><span class="p">,</span>
-  <span class="s">'x_auth_token'</span><span class="p">:</span> <span class="s">'may-the-force-be-with-you'</span>
-<span class="p">}</span>
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://homolog.api.lab-saude.com/tenants/users'</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> GET <span class="s1">'https://homolog.api.lab-saude.com/tenants/users'</span> <span class="se">\</span>
-<span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
-<span class="nt">-H</span> <span class="s1">'x_auth_token: may-the-force-be-with-you'</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
-
-<span class="kd">const</span> <span class="nx">apiResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span>
-  <span class="dl">"</span><span class="s2">https://homolog.api.lab-saude.com/tenants/users</span><span class="dl">"</span><span class="p">,</span>
-  <span class="p">{</span>
-    <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
-      <span class="na">x_tenant_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">homolog</span><span class="dl">"</span><span class="p">,</span>
-      <span class="na">x_auth_token</span><span class="p">:</span> <span class="dl">"</span><span class="s2">may-the-force-be-with-you</span><span class="dl">"</span><span class="p">,</span>
-    <span class="p">},</span>
-  <span class="p">}</span>
-<span class="p">);</span>
-</code></pre></div>
-<blockquote>
-<p>O comando acima retorna um JSON com a seguinte estrutura:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e21a8cf0-0580-4a1a-8125-da129f64d128"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Luke Skywalker"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"luke@jedi.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"senha-criptografada"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cpf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"786.985.230-99"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+99 (99) 9.9999-9999"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"company_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JEDI"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1951-09-25T18:19:01.911+00:00"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-11-18T18:19:01.911+00:00"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"system_wallet_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"rg"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"mother_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"birth_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25/09/1951"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"gender"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"civil_state"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"profession"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"image_link"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"one_signal_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"payer"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"requires_more_info"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9d17d3bd-4a78-43fa-8291-795ff27e0d2a"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Baby Yoda"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"baby.yoda@jedi.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"senha-criptografada"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cpf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"522.803.300-91"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+99 (99) 9.9999-9999"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"company_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lab-saude"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1972-10-21T18:31:57.298+00:00"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-11-18T18:31:57.298+00:00"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"system_wallet_number"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"rg"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"mother_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"birth_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"gender"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"civil_state"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"profession"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"image_link"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"one_signal_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"payer"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"requires_more_info"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre></div>
-<p>Este endpoint serve para listar todos os pacientes cadastrados no banco. Feito especialmente para o ambiente de testes, é uma boa ferramenta para realizar queries que atuem sobre todos os pacientes e também para realizar debug durante o desenvolvimento.</p>
-
-<p>A API retorna um array contendo todos os pacientes cadastrados no banco (tanto pagantes como gratuitos), assim como as suas informações.</p>
-<h3 id='objeto-de-resposta-descomplicado-13'>Objeto de resposta descomplicado</h3>
-<table><thead>
-<tr>
-<th>Campo</th>
-<th>Descrição</th>
-<th>Tipo</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>-</td>
-<td>Array de pacientes</td>
-<td>Array[Pacientes]</td>
-</tr>
-</tbody></table>
-<h2 id='modificar-senha-2'>Modificar senha</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="n">user_id</span> <span class="o">=</span> <span class="s">"ID-do-usuario-vem-aqui"</span>
 
 <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"cpf"</span><span class="p">:</span> <span class="s">"786.985.230-99"</span><span class="p">,</span>
-  <span class="s">"email"</span><span class="p">:</span> <span class="s">"luke@jedi.com"</span>
+    <span class="s">"disponibility"</span><span class="p">:</span> <span class="s">"Total"</span>
 <span class="p">}</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s">'x_tenant_id'</span><span class="p">:</span> <span class="s">'homolog'</span><span class="p">,</span>
-  <span class="s">'x_auth_token'</span><span class="p">:</span> <span class="s">'may-the-force-be-with-you'</span>
+  <span class="s">'x_auth_token'</span><span class="p">:</span> <span class="s">'meu-precioso'</span>
 <span class="p">}</span>
 
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">'https://homolog.api.lab-saude.com/tenants/users/recovery-password'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> PUT <span class="s1">'https://homolog.api.lab-saude.com/tenants/users/recovery-password'</span> <span class="se">\</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">"https://homolog.api.lab-saude.com/doctors/medics/disponibility/"</span> <span class="o">+</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> PUT <span class="s1">'https://homolog.api.lab-saude.com/doctors/medics/disponibility/ID-do-usuario-vem-aqui'</span> <span class="se">\</span>
 <span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
-<span class="nt">-H</span> <span class="s1">'x_auth_token: may-the-force-be-with-you'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'x_auth_token: meu-precioso'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
 <span class="nt">--data-raw</span> <span class="s1">'{
-    "cpf": "786.985.230-99",
-    "email": "luke@jedi.com"
+    "disponibility": "Total"
 }'</span>
 </code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
 
+<span class="kd">const</span> <span class="nx">userId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">ID-do-usuario-vem-aqui</span><span class="dl">"</span><span class="p">;</span>
+
 <span class="kd">const</span> <span class="nx">body</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">cpf</span><span class="p">:</span> <span class="dl">"</span><span class="s2">786.985.230-99</span><span class="dl">"</span><span class="p">,</span>
-  <span class="na">email</span><span class="p">:</span> <span class="dl">"</span><span class="s2">luke@jedi.com</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">disponibility</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Total</span><span class="dl">"</span><span class="p">,</span>
 <span class="p">};</span>
 
 <span class="kd">const</span> <span class="nx">apiResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span>
-  <span class="dl">"</span><span class="s2">https://homolog.api.lab-saude.com/tenants/users/recovery-password</span><span class="dl">"</span><span class="p">,</span>
+  <span class="s2">`https://homolog.api.lab-saude.com/doctors/medics/disponibility/</span><span class="p">${</span><span class="nx">userId</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
   <span class="nx">body</span><span class="p">,</span>
   <span class="p">{</span>
     <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">x_tenant_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">homolog</span><span class="dl">"</span><span class="p">,</span>
-      <span class="na">x_auth_token</span><span class="p">:</span> <span class="dl">"</span><span class="s2">may-the-force-be-with-you</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">x_auth_token</span><span class="p">:</span> <span class="dl">"</span><span class="s2">meu-precioso</span><span class="dl">"</span><span class="p">,</span>
     <span class="p">},</span>
   <span class="p">}</span>
 <span class="p">);</span>
@@ -2802,63 +2544,54 @@ Profissionais que tenham a propriedade <code>disponibility</code> cadastrada com
 <p>O comando acima retorna um JSON com a seguinte estrutura:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An e-mail will be sent."</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Medic disponibility successfully changed"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>Por meio deste endpoint é possível recuperar a senha de um paciente.</p>
+<p>Este endpoint serve exclusivamente para modificarmos o tipo de disponibilidade de um profissional.</p>
 
-<p>Basta apenas enviar o e-mail e cpf do paciente em questão. Dentro de alguns minutos ele receberá um e-mail explicando como recuperar sua senha.</p>
+<p>Caso queira que ela seja <code>Total</code>, basta adicionar isso no corpo do request, caso contrário, você só precisa adicionar <code>Parcial</code>.</p>
 
-<p>A API retorna uma mensagem padrão de sucesso avisando que o e-mail será enviado.</p>
-<h3 id='objeto-de-resposta-descomplicado-14'>Objeto de resposta descomplicado</h3>
-<table><thead>
-<tr>
-<th>Campo</th>
-<th>Descrição</th>
-<th>Tipo</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>message</td>
-<td>Mensagem indicando que um e-mail será enviado para o usuário</td>
-<td>String</td>
-</tr>
-</tbody></table>
-<h2 id='modificar-imagem-de-perfil-2'>Modificar imagem de perfil</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<p>A API retorna uma mensagem indiciando o sucesso da ação.</p>
 
-<span class="n">user_id</span> <span class="o">=</span> <span class="s">"uuid-do-paciente-aqui"</span>
+<aside class="notice">
+Caso você opte por trocar para disponibilidade <code>parcial</code>, lembre de <a href="#criar-horarios-de-atendimento-de-um-profissional">criar um horário de atendimento</a> na Lab Saúde.
+</aside>
+<h2 id='modificar-profissional'>Modificar profissional</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
-<span class="n">files</span><span class="o">=</span><span class="p">[</span>
-  <span class="p">(</span><span class="s">'profile_image'</span><span class="p">,</span> <span class="p">(</span><span class="s">'nome-da-imagem.jpeg'</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s">'/path/para/a/imagem/nome-da-imagem.jpg'</span><span class="p">,</span><span class="s">'rb'</span><span class="p">),</span><span class="s">'image/jpeg'</span><span class="p">))</span>
-<span class="p">]</span>
+<span class="n">user_id</span> <span class="o">=</span> <span class="s">"ID-do-profissional-vem-aqui"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"clinic_id"</span><span class="p">:</span> <span class="s">"bolseiros-clinic"</span>
+<span class="p">}</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s">'x_tenant_id'</span><span class="p">:</span> <span class="s">'homolog'</span><span class="p">,</span>
-  <span class="s">'x_auth_token'</span><span class="p">:</span> <span class="s">'may-the-force-be-with-you'</span>
+  <span class="s">'x_auth_token'</span><span class="p">:</span> <span class="s">'meu-precioso'</span>
 <span class="p">}</span>
 
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">'https://homolog.api.lab-saude.com/tenants/users/profile-image/'</span> <span class="o">+</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> PUT <span class="s1">'https://homolog.api.lab-saude.com/tenants/users/profile-image/uuid-do-paciente-aqui'</span> <span class="se">\</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">'https://homolog.api.lab-saude.com/doctors/medics/'</span> <span class="o">+</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> PUT <span class="s1">'https://homolog.api.lab-saude.com/doctors/medics/ID-do-profissional-vem-aqui'</span> <span class="se">\</span>
 <span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
-<span class="nt">-H</span> <span class="s1">'x_auth_token: may-the-force-be-with-you'</span> <span class="se">\</span>
-<span class="nt">--form</span> <span class="s1">'profile_image=@"/path/para/a/imagem/nome-da-imagem.jpg"'</span>
+<span class="nt">-H</span> <span class="s1">'x_auth_token: meu-precioso'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<span class="nt">--data-raw</span> <span class="s1">'{
+    "clinic_id": "bolseiros-clinic"
+}'</span>
 </code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
-<span class="kd">const</span> <span class="nx">FormData</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">form-data</span><span class="dl">"</span><span class="p">);</span>
-<span class="kd">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">fs</span><span class="dl">"</span><span class="p">);</span>
-<span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">();</span>
-<span class="nx">data</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span>
-  <span class="dl">"</span><span class="s2">profile_image</span><span class="dl">"</span><span class="p">,</span>
-  <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="dl">"</span><span class="s2">/path/para/a/imagem/nome-da-imagem.jpg</span><span class="dl">"</span><span class="p">)</span>
-<span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">body</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">clinic_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">bolseiros-clinic</span><span class="dl">"</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="kd">const</span> <span class="nx">userId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">ID-do-profissional-vem-aqui</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">apiResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span>
-  <span class="dl">"</span><span class="s2">https://homolog.api.lab-saude.com/tenants/users/profile-image</span><span class="dl">"</span><span class="p">,</span>
-  <span class="nx">data</span><span class="p">,</span>
+  <span class="s2">`https://homolog.api.lab-saude.com/doctors/medics/</span><span class="p">${</span><span class="nx">userId</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+  <span class="nx">body</span><span class="p">,</span>
   <span class="p">{</span>
     <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">x_tenant_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">homolog</span><span class="dl">"</span><span class="p">,</span>
-      <span class="na">x_auth_token</span><span class="p">:</span> <span class="dl">"</span><span class="s2">may-the-force-be-with-you</span><span class="dl">"</span><span class="p">,</span>
-      <span class="p">...</span><span class="nx">data</span><span class="p">.</span><span class="nx">getHeaders</span><span class="p">(),</span>
+      <span class="na">x_auth_token</span><span class="p">:</span> <span class="dl">"</span><span class="s2">meu-precioso</span><span class="dl">"</span><span class="p">,</span>
     <span class="p">},</span>
   <span class="p">}</span>
 <span class="p">);</span>
@@ -2867,41 +2600,35 @@ Profissionais que tenham a propriedade <code>disponibility</code> cadastrada com
 <p>O comando acima retorna um JSON com a seguinte estrutura:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"userImage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"link-para-a-nova-imagem-de-perfil"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ID-do-profissional-vem-aqui"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bilbo Bolseiro"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bilbo@lotr.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CRP"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"23"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"accepts_presential_appointments"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"accepts_online_appointments"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"office_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Terra Média"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"office_city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Condado"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"office_neighbor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Vila dos Hobbits"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"office_zip_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"99.999-999"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"office_street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Avenida Hobbits de Souza"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"office_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"111"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"image_link"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"appointment_price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50.00"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"online_appointment_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">70</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"clinic_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bolseiros-clinic"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"disponibility"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Total"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"requires_more_info"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lab-saude"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"specialties"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Viagens"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Anéis"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>De forma simples e rápida é possível modificar a imagem de perfil de um paciente.</p>
+<p>Por meio deste endpoint é possível modificar qualquer informação padrão de um profissional.</p>
 
-<p>Basta apenas enviar o arquivo da nova imagem em JPEG, com o nome <code>profile_image</code> para este endpoint.</p>
+<p>Tudo o que você precisa fazer é enviar no corpo da requisição a informação a ser modificada.</p>
 
-<p>A API retorna um objeto contendo um link para a nova imagem de perfil do paciente no S3 da AWS.</p>
-<h3 id='objeto-de-resposta-descomplicado-15'>Objeto de resposta descomplicado</h3>
-<table><thead>
-<tr>
-<th>Campo</th>
-<th>Descrição</th>
-<th>Tipo</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>status</td>
-<td>Status da requisição HTTP</td>
-<td>Número</td>
-</tr>
-<tr>
-<td>response</td>
-<td>Objeto de resposta</td>
-<td>Objeto</td>
-</tr>
-<tr>
-<td>userImage</td>
-<td>Link para a nova imagem do paciente no S3</td>
-<td>String</td>
-</tr>
-</tbody></table>
+<p>A API retorna o objeto do profissional com suas informações atualizadas.</p>
 
 <!-- TODO Add HTTP Request seguindo exemplo do tópico Kittens -->
 <h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
