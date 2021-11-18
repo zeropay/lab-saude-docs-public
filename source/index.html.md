@@ -1468,7 +1468,7 @@ Assim como na seção de pacientes, às vezes é preciso criar uma grande quanti
 
 Com isso em mente, esse endpoint recebe algumas informações básicas para a criação de um profissional e os cadastra no banco de dados.
 
-Mais tarde, esses profissionais poderão completar seu cadastro dentro do [sistema profissional](https://profissionais.lab-saude.com), ou pela própria API.
+Estes profissionais com o cadastro incompleto são chamados de PROTO-profissionais. Mais tarde, eles poderão completar seu cadastro dentro do [sistema profissional](https://profissionais.lab-saude.com), ou pela própria API.
 
 ## Criar vários pacientes pagos de uma só vez
 
