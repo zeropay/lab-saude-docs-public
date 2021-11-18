@@ -379,7 +379,7 @@
                     <a href="#criar-horarios-de-atendimento-de-um-profissional" class="toc-h2 toc-link" data-title="Criar horários de atendimento de um profissional">Criar horários de atendimento de um profissional</a>
                   </li>
                   <li>
-                    <a href="#listar-paciente-pelo-id-2" class="toc-h2 toc-link" data-title="Listar paciente pelo id">Listar paciente pelo id</a>
+                    <a href="#listar-horarios-disponiveis-de-um-profissional" class="toc-h2 toc-link" data-title="Listar horários disponíveis de um profissional">Listar horários disponíveis de um profissional</a>
                   </li>
                   <li>
                     <a href="#listar-paciente-pelo-cpf-2" class="toc-h2 toc-link" data-title="Listar paciente pelo CPF">Listar paciente pelo CPF</a>
@@ -2419,29 +2419,29 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 <aside class="notice">
 Profissionais que tenham a propriedade <code>disponibility</code> cadastrada como <code>Total</code> terão, por padrão, todos os horários disponíveis para atendimento na Lab Saúde.
 </aside>
-<h2 id='listar-paciente-pelo-id-2'>Listar paciente pelo id</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<h2 id='listar-horarios-disponiveis-de-um-profissional'>Listar horários disponíveis de um profissional</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
-<span class="n">user_id</span> <span class="o">=</span> <span class="s">"uuid-do-usuario-vem-aqui"</span>
+<span class="n">user_id</span> <span class="o">=</span> <span class="s">"uuid-do-profissional-vem-aqui"</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s">'x_tenant_id'</span><span class="p">:</span> <span class="s">'homolog'</span><span class="p">,</span>
-  <span class="s">'x_auth_token'</span><span class="p">:</span> <span class="s">'may-the-force-be-with-you'</span>
+  <span class="s">'x_auth_token'</span><span class="p">:</span> <span class="s">'meu-precioso'</span>
 <span class="p">}</span>
 
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"https://homolog.api.lab-saude.com/tenants/users/"</span> <span class="o">+</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> GET <span class="s1">'https://homolog.api.lab-saude.com/tenants/users/uuid-do-usuario-vem-aqui'</span> <span class="se">\</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"https://homolog.api.lab-saude.com/doctors/medics/medic-disponibility/"</span> <span class="o">+</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> GET <span class="s1">'https://homolog.api.lab-saude.com/doctors/medics/medic-disponibility/uuid-do-profissional-vem-aqui'</span> <span class="se">\</span>
 <span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
-<span class="nt">-H</span> <span class="s1">'x_auth_token: may-the-force-be-with-you'</span>
+<span class="nt">-H</span> <span class="s1">'x_auth_token: meu-precioso'</span>
 </code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
 
-<span class="kd">const</span> <span class="nx">userId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">uuid-do-usuario-vem-aqui</span><span class="dl">"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">userId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">uuid-do-profissional-vem-aqui</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">apiResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span>
-  <span class="s2">`https://homolog.api.lab-saude.com/tenants/users/</span><span class="p">${</span><span class="nx">userId</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+  <span class="s2">`https://homolog.api.lab-saude.com/doctors/medics/medic-disponibility/</span><span class="p">${</span><span class="nx">userId</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
   <span class="p">{</span>
     <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">x_tenant_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">homolog</span><span class="dl">"</span><span class="p">,</span>
-      <span class="na">x_auth_token</span><span class="p">:</span> <span class="dl">"</span><span class="s2">may-the-force-be-with-you</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">x_auth_token</span><span class="p">:</span> <span class="dl">"</span><span class="s2">meu-precioso</span><span class="dl">"</span><span class="p">,</span>
     <span class="p">},</span>
   <span class="p">}</span>
 <span class="p">);</span>
@@ -2450,31 +2450,37 @@ Profissionais que tenham a propriedade <code>disponibility</code> cadastrada com
 <p>O comando acima retorna um JSON com a seguinte estrutura:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid-do-usuario-vem-aqui"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Luke Skywalker"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"luke@jedi.com"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"senha-criptografada"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"cpf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"786.985.230-99"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+99 (99) 9.9999-9999"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"company_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JEDI"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1951-09-25T18:19:01.911+00:00"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-11-18T18:19:01.911+00:00"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"system_wallet_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"rg"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"mother_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"birth_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25/09/1951"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"gender"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"civil_state"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"profession"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"image_link"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"one_signal_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"payer"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"requires_more_info"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="nl">"full_disponibility"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"dates"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"2021-11-10T15:00:00.000Z"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Mon Nov 15 2021 10:30:00 GMT-0300 (-03)"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"disponibilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"Segunda-feira"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aaa8d33a-1e0e-4659-823e-0816b8be1578"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"08:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12:00"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bdaff5a4-48a7-48c1-900e-652f53190a0e"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"15:00"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"Terça-feira"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"935e6710-a6e7-405f-8c79-6e502485fad7"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"08:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12:00"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>Este endpoint retorna as informações de um paciente específico, dependendo de qual ID seja passado na rota.</p>
+<p>Este endpoint retorna os horários disponíveis para marcação de consultas de um profissional em específico.</p>
 
-<p>A API retorna um objeto contendo todos os dados cadastrados no banco referentes ao paciente em questão.</p>
+<p>A API retorna um objeto contendo algumas informações, como se sua disponibilidade é total ou parcial, as datas futuras de consultas e os horários padrão disponíveis para marcação de consultas.</p>
 <h3 id='objeto-de-resposta-descomplicado-11'>Objeto de resposta descomplicado</h3>
 <table><thead>
 <tr>
@@ -2484,104 +2490,19 @@ Profissionais que tenham a propriedade <code>disponibility</code> cadastrada com
 </tr>
 </thead><tbody>
 <tr>
-<td>id</td>
-<td>ID do paciente no banco da Lab</td>
-<td>UUID</td>
-</tr>
-<tr>
-<td>name</td>
-<td>Nome do paciente</td>
-<td>String</td>
-</tr>
-<tr>
-<td>email</td>
-<td>E-mail do paciente</td>
-<td>String</td>
-</tr>
-<tr>
-<td>password</td>
-<td>Senha do paciente criptografada utilizando Argon2</td>
-<td>String</td>
-</tr>
-<tr>
-<td>cpf</td>
-<td>CPF do paciente</td>
-<td>String</td>
-</tr>
-<tr>
-<td>phone</td>
-<td>Número de telefone do paciente</td>
-<td>String</td>
-</tr>
-<tr>
-<td>company_id</td>
-<td>Identificador que referencia um paciente à uma empresa do ecossistema Lab</td>
-<td>String</td>
-</tr>
-<tr>
-<td>created_at</td>
-<td>Timestamp da data e hora de criação do paciente no banco</td>
-<td>Timestamp</td>
-</tr>
-<tr>
-<td>updated_at</td>
-<td>Timestamp da data e hora da última atualização do paciente no banco</td>
-<td>Timestamp</td>
-</tr>
-<tr>
-<td>system_wallet_number</td>
-<td>Caso seja um paciente pagante, recebe o número da carteira do paciente na System Saúde, parceira da Lab Saúde. Caso seja um paciente gratuito, recebe null</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>rg</td>
-<td>R.G. do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>mother_name</td>
-<td>Nome da mãe do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>birth_date</td>
-<td>Data de nascimento do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>gender</td>
-<td>Gênero do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>civil_state</td>
-<td>Estado civil do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>profession</td>
-<td>Profissão do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>image_link</td>
-<td>Link para imagem de perfil do paciente</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>one_signal_id</td>
-<td>ID do paciente no OneSignal, utilizado para enviar push notifications</td>
-<td>String ou null</td>
-</tr>
-<tr>
-<td>payer</td>
-<td>Booleano que informa se o paciente é ou não um paciente pagante</td>
+<td>full_disponibility</td>
+<td>Flag que indica se o profissional tem disponibilidade total ou parcial</td>
 <td>Booleano</td>
 </tr>
 <tr>
-<td>requires_more_info</td>
-<td>Booleano que informa se o paciente precisa adicionar mais informações para que seu cadastro fique completo</td>
-<td>Booleano</td>
+<td>dates</td>
+<td>Datas das próximas consultas do profissional na Lab Saúde</td>
+<td>Array[Timestamps]</td>
+</tr>
+<tr>
+<td>disponibilities</td>
+<td>Horários cadastrados como disponíveis no banco na hora da criação dos horários do profissional</td>
+<td>Objeto</td>
 </tr>
 </tbody></table>
 <h2 id='listar-paciente-pelo-cpf-2'>Listar paciente pelo CPF</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
