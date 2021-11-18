@@ -1329,53 +1329,130 @@ Nesse endpoint, criamos uma conta para um novo profissional, passando informaç�
 | disponibility                   | Tipo de disponibilidade do profissional para consultas na Lab Saúde, pode ser "Total" ou "Parcial" | String         |
 | specialties                     | Lista contendo as especialidades do profissional                                                   | Array[Strings] |
 
-## Criar um paciente gratuito
+## Criar PROTO profissionais
 
 ```python
 import requests
 
 body = {
-  "fullName": "Baby Yoda",
-  "email": "baby.yoda@jedi.com",
-  "password": "1234",
-  "passwordConfirmation": "1234",
-  "CPF": "522.803.300-91",
-  "cellPhone": "+99 (99) 9.9999-9999"
+	"medics": [
+		{
+			"name": "Frodo Bolseiro",
+			"crm": "123456789",
+			"office_state": "Terra Média",
+      "office_city": "Condado",
+      "office_neighbor": "Vila dos Hobbits",
+      "office_zip_code": "99.999-998",
+      "office_street": "Avenida Hobbits de Souza",
+      "office_number": "112",
+      "council_type": "CRP",
+      "council_state": "23",
+      "council_code": "123457",
+			"specialties": ["Anéis", "Podologia"]
+		},
+		{
+			"name": "Gandalf, The White",
+			"crm": "147258369",
+			"office_state": "Terra Média",
+      "office_city": "Algum Lugar",
+      "office_neighbor": "Vila dos Magos",
+      "office_zip_code": "99.999-888",
+      "office_street": "Avenida Magos de Souza",
+      "office_number": "n/a",
+      "council_type": "CRP",
+      "council_state": "23",
+      "council_code": "123458",
+			"specialties": ["Feiticaria"]
+		}
+	]
 }
+
 
 headers = {"x_tenant_id": "homolog"}
 
-response = requests.post('https://homolog.api.lab-saude.com/tenants/users/free', data=body, headers=headers)
+company_id = "terra-media"
+
+response = requests.post('https://homolog.api.lab-saude.com/doctors/medics/proto/' + company_id, data=body, headers=headers)
 ```
 
 ```shell
-curl --location --request POST 'https://homolog.api.lab-saude.com/tenants/users/free' \
+curl --location --request POST 'https://homolog.api.lab-saude.com/doctors/medics/proto/terra-media' \
 -H 'x_tenant_id: homolog' \
 -H 'Content-Type: application/json' \
 --data-raw '{
-  "fullName": "Baby Yoda",
-  "email": "baby.yoda@jedi.com",
-  "password": "1234",
-  "passwordConfirmation": "1234",
-  "CPF": "522.803.300-91",
-  "cellPhone": "+99 (99) 9.9999-9999"
-}'
+	"medics": [
+		{
+			"name": "Frodo Bolseiro",
+			"crm": "123456789",
+			"office_state": "Terra Média",
+      "office_city": "Condado",
+      "office_neighbor": "Vila dos Hobbits",
+      "office_zip_code": "99.999-998",
+      "office_street": "Avenida Hobbits de Souza",
+      "office_number": "112",
+      "council_type": "CRP",
+      "council_state": "23",
+      "council_code": "123457",
+			"specialties": ["Anéis", "Podologia"]
+		},
+		{
+			"name": "Gandalf, The White",
+			"crm": "147258369",
+			"office_state": "Terra Média",
+      "office_city": "Algum Lugar",
+      "office_neighbor": "Vila dos Magos",
+      "office_zip_code": "99.999-888",
+      "office_street": "Avenida Magos de Souza",
+      "office_number": "n/a",
+      "council_type": "CRP",
+      "council_state": "23",
+      "council_code": "123458",
+			"specialties": ["Feiticaria"]
+		}
+	]
+}
+'
 ```
 
 ```javascript
 const axios = require("axios");
 
 const body = {
-  fullName: "Baby Yoda",
-  email: "baby.yoda@jedi.com",
-  password: "1234",
-  passwordConfirmation: "1234",
-  CPF: "522.803.300-91",
-  cellPhone: "+99 (99) 9.9999-9999",
+  medics: [
+    {
+      name: "Frodo Bolseiro",
+      crm: "123456789",
+      office_state: "Terra Média",
+      office_city: "Condado",
+      office_neighbor: "Vila dos Hobbits",
+      office_zip_code: "99.999-998",
+      office_street: "Avenida Hobbits de Souza",
+      office_number: "112",
+      council_type: "CRP",
+      council_state: "23",
+      council_code: "123457",
+      specialties: ["Anéis", "Podologia"],
+    },
+    {
+      name: "Gandalf, The White",
+      crm: "147258369",
+      office_state: "Terra Média",
+      office_city: "Algum Lugar",
+      office_neighbor: "Vila dos Magos",
+      office_zip_code: "99.999-888",
+      office_street: "Avenida Magos de Souza",
+      office_number: "n/a",
+      council_type: "CRP",
+      council_state: "23",
+      council_code: "123458",
+      specialties: ["Feiticaria"],
+    },
+  ],
 };
+const companyId = "terra-media";
 
 const apiResponse = await axios.post(
-  "https://homolog.api.lab-saude.com/tenants/users/free",
+  `https://homolog.api.lab-saude.com/doctors/medics/proto/${companyId}`,
   body,
   {
     headers: {
@@ -1385,38 +1462,13 @@ const apiResponse = await axios.post(
 );
 ```
 
-> O comando acima retorna um JSON com a seguinte estrutura:
+> O comando acima retorna um status 204 (no content). O que significa que não há corpo de retorno.
 
-```json
-{
-  "status": 200,
-  "response": {
-    "name": "Baby Yoda",
-    "cpf": "522.803.300-91",
-    "email": "baby.yoda@jedi.com",
-    "user_id": "9d17d3bd-4a78-43fa-8291-795ff27e0d2a",
-    "phone": "+99 (99) 9.9999-9999"
-  },
-  "token": "may-the-force-be-with-you"
-}
-```
+Assim como na seção de pacientes, às vezes é preciso criar uma grande quantidade de profissionais de uma vez.
 
-Neste endpoint é possível criar uma conta para pacientes gratuitos. Ou seja, aqueles que poderão utilizar somente o sistema para pacientes gratuitos da Lab Saúde.
+Com isso em mente, esse endpoint recebe algumas informações básicas para a criação de um profissional e os cadastra no banco de dados.
 
-Assim como no endpoint anterior, são necessárias informações básicas para o cadastro do paciente no banco. Diferente do paciente pago, o paciente gratuito não é integrado com as marcas parceiras do ecossistema Lab. Por isso, são enviadas menos informações nesse request.
-
-### Objeto de resposta descomplicado
-
-| Campo    | Descrição                                    | Tipo    |
-| -------- | -------------------------------------------- | ------- |
-| status   | O status do request HTTP                     | Inteiro |
-| response | Objeto contendo informações do paciente      | Objeto  |
-| name     | Nome do paciente                             | String  |
-| cpf      | cpf do paciente                              | String  |
-| email    | E-mail do paciente                           | String  |
-| user_id  | ID do paciente no banco da Lab               | UUID    |
-| phone    | Número de telefone do paciente               | String  |
-| token    | Token que será utilizado em requests futuros | String  |
+Mais tarde, esses profissionais poderão completar seu cadastro dentro do [sistema profissional](https://profissionais.lab-saude.com), ou pela própria API.
 
 ## Criar vários pacientes pagos de uma só vez
 
