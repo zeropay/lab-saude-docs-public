@@ -1941,6 +1941,8 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 <td>String</td>
 </tr>
 </tbody></table>
+
+<!-- TODO Add HTTP Request seguindo exemplo do tópico Kittens -->
 <h1 id='profissionais'>Profissionais</h1>
 <p>Os profissionais da saúde exercem um papel fundamental dentro do ecossistema da Lab Saúde.</p>
 
@@ -2085,7 +2087,7 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 <p>Para realizar qualquer interação nas rotas dos profissionais é preciso, primeiro, criar um profissional.</p>
 
 <p>Nesse endpoint, criamos uma conta para um novo profissional, passando informações básicas de nome, email, endereço da clínica onde atua, se recebe consultas presenciais e/ou telemedicina, suas especialidades, suas informações complementares como formação, experiência, etc. Esses dados seguem o padrão do que é pedido na tela de cadastro do <a href="https://profissionais.lab-saude.com">sistema para profissionais da saúde</a>.</p>
-<h3 id='objeto-de-resposta-descomplicado-10'>Objeto de resposta descomplicado</h3>
+<h3 id='objeto-de-resposta-descomplicado'>Objeto de resposta descomplicado</h3>
 <table><thead>
 <tr>
 <th>Campo</th>
@@ -2476,7 +2478,7 @@ Profissionais que tenham a propriedade <code>disponibility</code> cadastrada com
 <p>Este endpoint retorna os horários disponíveis para marcação de consultas de um profissional em específico.</p>
 
 <p>A API retorna um objeto contendo algumas informações, como se sua disponibilidade é total ou parcial, as datas futuras de consultas e os horários padrão disponíveis para marcação de consultas.</p>
-<h3 id='objeto-de-resposta-descomplicado-11'>Objeto de resposta descomplicado</h3>
+<h3 id='objeto-de-resposta-descomplicado-2'>Objeto de resposta descomplicado</h3>
 <table><thead>
 <tr>
 <th>Campo</th>
@@ -2629,8 +2631,6 @@ Caso você opte por trocar para disponibilidade <code>parcial</code>, lembre de 
 <p>Tudo o que você precisa fazer é enviar no corpo da requisição a informação a ser modificada.</p>
 
 <p>A API retorna o objeto do profissional com suas informações atualizadas.</p>
-
-<!-- TODO Add HTTP Request seguindo exemplo do tópico Kittens -->
 <h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
