@@ -376,7 +376,7 @@
                     <a href="#criar-proto-profissionais" class="toc-h2 toc-link" data-title="Criar PROTO profissionais">Criar PROTO profissionais</a>
                   </li>
                   <li>
-                    <a href="#criar-varios-pacientes-pagos-de-uma-so-vez-2" class="toc-h2 toc-link" data-title="Criar vários pacientes pagos de uma só vez">Criar vários pacientes pagos de uma só vez</a>
+                    <a href="#criar-horarios-de-atendimento-de-um-profissional" class="toc-h2 toc-link" data-title="Criar horários de atendimento de um profissional">Criar horários de atendimento de um profissional</a>
                   </li>
                   <li>
                     <a href="#listar-paciente-pelo-id-2" class="toc-h2 toc-link" data-title="Listar paciente pelo id">Listar paciente pelo id</a>
@@ -2321,45 +2321,89 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 <p>Com isso em mente, esse endpoint recebe algumas informações básicas para a criação de um profissional e os cadastra no banco de dados.</p>
 
 <p>Estes profissionais com o cadastro incompleto são chamados de PROTO-profissionais. Mais tarde, eles poderão completar seu cadastro dentro do <a href="https://profissionais.lab-saude.com">sistema profissional</a>, ou pela própria API.</p>
-<h2 id='criar-varios-pacientes-pagos-de-uma-so-vez-2'>Criar vários pacientes pagos de uma só vez</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<h2 id='criar-horarios-de-atendimento-de-um-profissional'>Criar horários de atendimento de um profissional</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
-<span class="n">payload</span><span class="o">=</span><span class="p">{}</span>
-<span class="n">files</span><span class="o">=</span><span class="p">[</span>
-  <span class="p">(</span><span class="s">'file'</span><span class="p">,</span> <span class="p">(</span><span class="s">'Exemplo de CSV para registro de usuários na Lab Saúde'</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s">'/path/até/o/arquivo/Exemplo de CSV para registro de usuários na Lab Saúde'</span><span class="p">,</span><span class="s">'rb'</span><span class="p">),</span><span class="s">'text/csv'</span><span class="p">))</span>
-<span class="p">]</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"x_tenant_id"</span><span class="p">:</span> <span class="s">"homolog"</span><span class="p">}</span>
+<span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"schedules"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">"day"</span><span class="p">:</span> <span class="s">"Segunda-feira"</span><span class="p">,</span>
+            <span class="s">"start_hour"</span><span class="p">:</span> <span class="s">"08:00"</span><span class="p">,</span>
+            <span class="s">"end_hour"</span><span class="p">:</span> <span class="s">"12:00"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s">"day"</span><span class="p">:</span> <span class="s">"Terça-feira"</span><span class="p">,</span>
+            <span class="s">"start_hour"</span><span class="p">:</span> <span class="s">"08:00"</span><span class="p">,</span>
+            <span class="s">"end_hour"</span><span class="p">:</span> <span class="s">"12:00"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s">"day"</span><span class="p">:</span> <span class="s">"Segunda-feira"</span><span class="p">,</span>
+            <span class="s">"start_hour"</span><span class="p">:</span> <span class="s">"13:00"</span><span class="p">,</span>
+            <span class="s">"end_hour"</span><span class="p">:</span> <span class="s">"15:00"</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
 
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://homolog.api.lab-saude.com/messages/user-register-email/lab-saude"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> POST <span class="s1">'htps://homolog.api.lab-saude.com/doctors/login/clinics-medic'</span> <span class="se">\</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"x_tenant_id"</span><span class="p">:</span> <span class="s">"homolog"</span><span class="p">,</span> <span class="s">"x_auth_token"</span><span class="p">:</span> <span class="s">"meu-precioso"</span><span class="p">}</span>
+
+<span class="n">professional_id</span> <span class="o">=</span> <span class="s">"ID-do-profissional-aqui"</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">'https://homolog.api.lab-saude.com/doctors/medics/create-schedule/'</span> <span class="o">+</span> <span class="n">professional_id</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> POST <span class="s1">'https://homolog.api.lab-saude.com/doctors/medics/create-schedule/ID-do-profissional-aqui'</span> <span class="se">\</span>
 <span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
+<span class="nt">-H</span> <span class="s1">'x_auth_token: meu-precioso'</span> <span class="se">\</span>
 <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
 <span class="nt">--data-raw</span> <span class="s1">'{
-    "email": "email-do-profissional-ou-clinica-vem-aqui@mail.com",
-    "password": "senha-do-profissional-ou-clinica-vem-aqui"
-}'</span>
-
-curl <span class="nt">--location</span> <span class="nt">--request</span> POST <span class="s1">'https://homolog.api.lab-saude.com/messages/user-register-email/lab-saude'</span> <span class="se">\</span>
-<span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
-<span class="nt">--form</span> <span class="s1">'file=@"/path/até/o/arquivo/Exemplo de CSV para registro de usuários na Lab Saúde"'</span>
+    "schedules": [
+        {
+            "day": "Segunda-feira",
+            "start_hour": "08:00",
+            "end_hour": "12:00"
+        },
+        {
+            "day": "Terça-feira",
+            "start_hour": "08:00",
+            "end_hour": "12:00"
+        },
+        {
+            "day": "Segunda-feira",
+            "start_hour": "13:00",
+            "end_hour": "15:00"
+        }
+    ]
+}
+'</span>
 </code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
-<span class="kd">const</span> <span class="nx">FormData</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">form-data</span><span class="dl">"</span><span class="p">);</span>
-<span class="kd">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">fs</span><span class="dl">"</span><span class="p">);</span>
-<span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">();</span>
 
-<span class="nx">data</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span>
-  <span class="dl">"</span><span class="s2">file</span><span class="dl">"</span><span class="p">,</span>
-  <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span>
-    <span class="dl">"</span><span class="s2">/path/até/o/arquivo/Exemplo de CSV para registro de usuários na Lab Saúde</span><span class="dl">"</span>
-  <span class="p">)</span>
-<span class="p">);</span>
+<span class="kd">const</span> <span class="nx">body</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">schedules</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="na">day</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Segunda-feira</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">start_hour</span><span class="p">:</span> <span class="dl">"</span><span class="s2">08:00</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">end_hour</span><span class="p">:</span> <span class="dl">"</span><span class="s2">12:00</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="na">day</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Terça-feira</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">start_hour</span><span class="p">:</span> <span class="dl">"</span><span class="s2">08:00</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">end_hour</span><span class="p">:</span> <span class="dl">"</span><span class="s2">12:00</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="na">day</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Segunda-feira</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">start_hour</span><span class="p">:</span> <span class="dl">"</span><span class="s2">13:00</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">end_hour</span><span class="p">:</span> <span class="dl">"</span><span class="s2">15:00</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">],</span>
+<span class="p">};</span>
 
-<span class="kd">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span>
-  <span class="dl">"</span><span class="s2">https://homolog.api.lab-saude.com/messages/user-register-email/lab-saude</span><span class="dl">"</span><span class="p">,</span>
-  <span class="nx">data</span><span class="p">,</span>
+<span class="kd">const</span> <span class="nx">professionalId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">ID-do-profissional-aqui</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">apiResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span>
+  <span class="s2">`https://homolog.api.lab-saude.com/doctors/medics/create-schedule/</span><span class="p">${</span><span class="nx">professionalId</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+  <span class="nx">body</span><span class="p">,</span>
   <span class="p">{</span>
     <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">x_tenant_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">homolog</span><span class="dl">"</span><span class="p">,</span>
-      <span class="p">...</span><span class="nx">data</span><span class="p">.</span><span class="nx">getHeaders</span><span class="p">(),</span>
+      <span class="na">x_auth_token</span><span class="p">:</span> <span class="dl">"</span><span class="s2">meu-precioso</span><span class="dl">"</span><span class="p">,</span>
     <span class="p">},</span>
   <span class="p">}</span>
 <span class="p">);</span>
@@ -2368,50 +2412,13 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 <p>O comando acima retorna um status 204 (no content). O que significa que não há corpo de retorno.</p>
 </blockquote>
 
-<p>Às vezes, quando temos que realizar muitos cadastros de uma vez pode ser útil utilizar este endpoint.</p>
+<p>É importante observar que somente profissionais que atendem PARCIALMENTE à Lab Saúde, ou seja, que não tem disponibilidade total, podem criar um horário de atendimento.</p>
 
-<p>A API recebe um CSV que segue o padrão:</p>
+<p>Uma vez que o profissional foi cadastrado com disponibilidade parcial, é preciso cadastrar os seus horários de atendimento, para que o profissional consiga realizar consultas na plataforma da Lab nos horários cadastrados.</p>
 
-<table><thead>
-<tr>
-<th>Nome</th>
-<th>E-mail</th>
-<th>CPF</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Darth Vader</td>
-<td>darth.vader@sith.com</td>
-<td>602.424.060-09</td>
-</tr>
-<tr>
-<td>Emperor Palpatine</td>
-<td>emperor@sith.com</td>
-<td>621.077.290-00</td>
-</tr>
-<tr>
-<td>Darth Maul</td>
-<td>darth.maul@sith.com</td>
-<td>842.857.610-68</td>
-</tr>
-<tr>
-<td>General Grievous</td>
-<td>general.grievous@sith.com</td>
-<td>883.615.030-64</td>
-</tr>
-<tr>
-<td>Conde Dookan</td>
-<td>conde.dookan@sith.com</td>
-<td>545.084.210-40</td>
-</tr>
-<tr>
-<td>General Hux</td>
-<td>general.hux@sith.com</td>
-<td>709.482.110-75</td>
-</tr>
-</tbody></table>
-
-<p>As informações referentes ao login no aplicativo da Lab Saúde serão enviadas por e-mail para os pacientes cadastrados.</p>
+<aside class="notice">
+Profissionais que tenham a propriedade <code>disponibility</code> cadastrada como <code>Total</code> terão, por padrão, todos os horários disponíveis para atendimento na Lab Saúde.
+</aside>
 <h2 id='listar-paciente-pelo-id-2'>Listar paciente pelo id</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="n">user_id</span> <span class="o">=</span> <span class="s">"uuid-do-usuario-vem-aqui"</span>
