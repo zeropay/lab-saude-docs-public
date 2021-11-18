@@ -373,7 +373,7 @@
                     <a href="#criar-um-profissional" class="toc-h2 toc-link" data-title="Criar um profissional">Criar um profissional</a>
                   </li>
                   <li>
-                    <a href="#criar-um-paciente-gratuito-2" class="toc-h2 toc-link" data-title="Criar um paciente gratuito">Criar um paciente gratuito</a>
+                    <a href="#criar-proto-profissionais" class="toc-h2 toc-link" data-title="Criar PROTO profissionais">Criar PROTO profissionais</a>
                   </li>
                   <li>
                     <a href="#criar-varios-pacientes-pagos-de-uma-so-vez-2" class="toc-h2 toc-link" data-title="Criar vários pacientes pagos de uma só vez">Criar vários pacientes pagos de uma só vez</a>
@@ -2189,44 +2189,121 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 <td>Array[Strings]</td>
 </tr>
 </tbody></table>
-<h2 id='criar-um-paciente-gratuito-2'>Criar um paciente gratuito</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<h2 id='criar-proto-profissionais'>Criar PROTO profissionais</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"fullName"</span><span class="p">:</span> <span class="s">"Baby Yoda"</span><span class="p">,</span>
-  <span class="s">"email"</span><span class="p">:</span> <span class="s">"baby.yoda@jedi.com"</span><span class="p">,</span>
-  <span class="s">"password"</span><span class="p">:</span> <span class="s">"1234"</span><span class="p">,</span>
-  <span class="s">"passwordConfirmation"</span><span class="p">:</span> <span class="s">"1234"</span><span class="p">,</span>
-  <span class="s">"CPF"</span><span class="p">:</span> <span class="s">"522.803.300-91"</span><span class="p">,</span>
-  <span class="s">"cellPhone"</span><span class="p">:</span> <span class="s">"+99 (99) 9.9999-9999"</span>
+    <span class="s">"medics"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">"name"</span><span class="p">:</span> <span class="s">"Frodo Bolseiro"</span><span class="p">,</span>
+            <span class="s">"crm"</span><span class="p">:</span> <span class="s">"123456789"</span><span class="p">,</span>
+            <span class="s">"office_state"</span><span class="p">:</span> <span class="s">"Terra Média"</span><span class="p">,</span>
+      <span class="s">"office_city"</span><span class="p">:</span> <span class="s">"Condado"</span><span class="p">,</span>
+      <span class="s">"office_neighbor"</span><span class="p">:</span> <span class="s">"Vila dos Hobbits"</span><span class="p">,</span>
+      <span class="s">"office_zip_code"</span><span class="p">:</span> <span class="s">"99.999-998"</span><span class="p">,</span>
+      <span class="s">"office_street"</span><span class="p">:</span> <span class="s">"Avenida Hobbits de Souza"</span><span class="p">,</span>
+      <span class="s">"office_number"</span><span class="p">:</span> <span class="s">"112"</span><span class="p">,</span>
+      <span class="s">"council_type"</span><span class="p">:</span> <span class="s">"CRP"</span><span class="p">,</span>
+      <span class="s">"council_state"</span><span class="p">:</span> <span class="s">"23"</span><span class="p">,</span>
+      <span class="s">"council_code"</span><span class="p">:</span> <span class="s">"123457"</span><span class="p">,</span>
+            <span class="s">"specialties"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Anéis"</span><span class="p">,</span> <span class="s">"Podologia"</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s">"name"</span><span class="p">:</span> <span class="s">"Gandalf, The White"</span><span class="p">,</span>
+            <span class="s">"crm"</span><span class="p">:</span> <span class="s">"147258369"</span><span class="p">,</span>
+            <span class="s">"office_state"</span><span class="p">:</span> <span class="s">"Terra Média"</span><span class="p">,</span>
+      <span class="s">"office_city"</span><span class="p">:</span> <span class="s">"Algum Lugar"</span><span class="p">,</span>
+      <span class="s">"office_neighbor"</span><span class="p">:</span> <span class="s">"Vila dos Magos"</span><span class="p">,</span>
+      <span class="s">"office_zip_code"</span><span class="p">:</span> <span class="s">"99.999-888"</span><span class="p">,</span>
+      <span class="s">"office_street"</span><span class="p">:</span> <span class="s">"Avenida Magos de Souza"</span><span class="p">,</span>
+      <span class="s">"office_number"</span><span class="p">:</span> <span class="s">"n/a"</span><span class="p">,</span>
+      <span class="s">"council_type"</span><span class="p">:</span> <span class="s">"CRP"</span><span class="p">,</span>
+      <span class="s">"council_state"</span><span class="p">:</span> <span class="s">"23"</span><span class="p">,</span>
+      <span class="s">"council_code"</span><span class="p">:</span> <span class="s">"123458"</span><span class="p">,</span>
+            <span class="s">"specialties"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Feiticaria"</span><span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
 <span class="p">}</span>
+
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"x_tenant_id"</span><span class="p">:</span> <span class="s">"homolog"</span><span class="p">}</span>
 
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">'https://homolog.api.lab-saude.com/tenants/users/free'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> POST <span class="s1">'https://homolog.api.lab-saude.com/tenants/users/free'</span> <span class="se">\</span>
+<span class="n">company_id</span> <span class="o">=</span> <span class="s">"terra-media"</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">'https://homolog.api.lab-saude.com/doctors/medics/proto/'</span> <span class="o">+</span> <span class="n">company_id</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> POST <span class="s1">'https://homolog.api.lab-saude.com/doctors/medics/proto/terra-media'</span> <span class="se">\</span>
 <span class="nt">-H</span> <span class="s1">'x_tenant_id: homolog'</span> <span class="se">\</span>
 <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
 <span class="nt">--data-raw</span> <span class="s1">'{
-  "fullName": "Baby Yoda",
-  "email": "baby.yoda@jedi.com",
-  "password": "1234",
-  "passwordConfirmation": "1234",
-  "CPF": "522.803.300-91",
-  "cellPhone": "+99 (99) 9.9999-9999"
-}'</span>
+    "medics": [
+        {
+            "name": "Frodo Bolseiro",
+            "crm": "123456789",
+            "office_state": "Terra Média",
+      "office_city": "Condado",
+      "office_neighbor": "Vila dos Hobbits",
+      "office_zip_code": "99.999-998",
+      "office_street": "Avenida Hobbits de Souza",
+      "office_number": "112",
+      "council_type": "CRP",
+      "council_state": "23",
+      "council_code": "123457",
+            "specialties": ["Anéis", "Podologia"]
+        },
+        {
+            "name": "Gandalf, The White",
+            "crm": "147258369",
+            "office_state": "Terra Média",
+      "office_city": "Algum Lugar",
+      "office_neighbor": "Vila dos Magos",
+      "office_zip_code": "99.999-888",
+      "office_street": "Avenida Magos de Souza",
+      "office_number": "n/a",
+      "council_type": "CRP",
+      "council_state": "23",
+      "council_code": "123458",
+            "specialties": ["Feiticaria"]
+        }
+    ]
+}
+'</span>
 </code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">axios</span><span class="dl">"</span><span class="p">);</span>
 
 <span class="kd">const</span> <span class="nx">body</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">fullName</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Baby Yoda</span><span class="dl">"</span><span class="p">,</span>
-  <span class="na">email</span><span class="p">:</span> <span class="dl">"</span><span class="s2">baby.yoda@jedi.com</span><span class="dl">"</span><span class="p">,</span>
-  <span class="na">password</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1234</span><span class="dl">"</span><span class="p">,</span>
-  <span class="na">passwordConfirmation</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1234</span><span class="dl">"</span><span class="p">,</span>
-  <span class="na">CPF</span><span class="p">:</span> <span class="dl">"</span><span class="s2">522.803.300-91</span><span class="dl">"</span><span class="p">,</span>
-  <span class="na">cellPhone</span><span class="p">:</span> <span class="dl">"</span><span class="s2">+99 (99) 9.9999-9999</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">medics</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Frodo Bolseiro</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">crm</span><span class="p">:</span> <span class="dl">"</span><span class="s2">123456789</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">office_state</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Terra Média</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">office_city</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Condado</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">office_neighbor</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Vila dos Hobbits</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">office_zip_code</span><span class="p">:</span> <span class="dl">"</span><span class="s2">99.999-998</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">office_street</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Avenida Hobbits de Souza</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">office_number</span><span class="p">:</span> <span class="dl">"</span><span class="s2">112</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">council_type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">CRP</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">council_state</span><span class="p">:</span> <span class="dl">"</span><span class="s2">23</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">council_code</span><span class="p">:</span> <span class="dl">"</span><span class="s2">123457</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">specialties</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">Anéis</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Podologia</span><span class="dl">"</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Gandalf, The White</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">crm</span><span class="p">:</span> <span class="dl">"</span><span class="s2">147258369</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">office_state</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Terra Média</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">office_city</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Algum Lugar</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">office_neighbor</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Vila dos Magos</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">office_zip_code</span><span class="p">:</span> <span class="dl">"</span><span class="s2">99.999-888</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">office_street</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Avenida Magos de Souza</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">office_number</span><span class="p">:</span> <span class="dl">"</span><span class="s2">n/a</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">council_type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">CRP</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">council_state</span><span class="p">:</span> <span class="dl">"</span><span class="s2">23</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">council_code</span><span class="p">:</span> <span class="dl">"</span><span class="s2">123458</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">specialties</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">Feiticaria</span><span class="dl">"</span><span class="p">],</span>
+    <span class="p">},</span>
+  <span class="p">],</span>
 <span class="p">};</span>
+<span class="kd">const</span> <span class="nx">companyId</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">terra-media</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">apiResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span>
-  <span class="dl">"</span><span class="s2">https://homolog.api.lab-saude.com/tenants/users/free</span><span class="dl">"</span><span class="p">,</span>
+  <span class="s2">`https://homolog.api.lab-saude.com/doctors/medics/proto/</span><span class="p">${</span><span class="nx">companyId</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
   <span class="nx">body</span><span class="p">,</span>
   <span class="p">{</span>
     <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
@@ -2236,72 +2313,14 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 <span class="p">);</span>
 </code></pre></div>
 <blockquote>
-<p>O comando acima retorna um JSON com a seguinte estrutura:</p>
+<p>O comando acima retorna um status 204 (no content). O que significa que não há corpo de retorno.</p>
 </blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Baby Yoda"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cpf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"522.803.300-91"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"baby.yoda@jedi.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9d17d3bd-4a78-43fa-8291-795ff27e0d2a"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+99 (99) 9.9999-9999"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"may-the-force-be-with-you"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>Neste endpoint é possível criar uma conta para pacientes gratuitos. Ou seja, aqueles que poderão utilizar somente o sistema para pacientes gratuitos da Lab Saúde.</p>
 
-<p>Assim como no endpoint anterior, são necessárias informações básicas para o cadastro do paciente no banco. Diferente do paciente pago, o paciente gratuito não é integrado com as marcas parceiras do ecossistema Lab. Por isso, são enviadas menos informações nesse request.</p>
-<h3 id='objeto-de-resposta-descomplicado-11'>Objeto de resposta descomplicado</h3>
-<table><thead>
-<tr>
-<th>Campo</th>
-<th>Descrição</th>
-<th>Tipo</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>status</td>
-<td>O status do request HTTP</td>
-<td>Inteiro</td>
-</tr>
-<tr>
-<td>response</td>
-<td>Objeto contendo informações do paciente</td>
-<td>Objeto</td>
-</tr>
-<tr>
-<td>name</td>
-<td>Nome do paciente</td>
-<td>String</td>
-</tr>
-<tr>
-<td>cpf</td>
-<td>cpf do paciente</td>
-<td>String</td>
-</tr>
-<tr>
-<td>email</td>
-<td>E-mail do paciente</td>
-<td>String</td>
-</tr>
-<tr>
-<td>user_id</td>
-<td>ID do paciente no banco da Lab</td>
-<td>UUID</td>
-</tr>
-<tr>
-<td>phone</td>
-<td>Número de telefone do paciente</td>
-<td>String</td>
-</tr>
-<tr>
-<td>token</td>
-<td>Token que será utilizado em requests futuros</td>
-<td>String</td>
-</tr>
-</tbody></table>
+<p>Assim como na seção de pacientes, às vezes é preciso criar uma grande quantidade de profissionais de uma vez.</p>
+
+<p>Com isso em mente, esse endpoint recebe algumas informações básicas para a criação de um profissional e os cadastra no banco de dados.</p>
+
+<p>Mais tarde, esses profissionais poderão completar seu cadastro dentro do <a href="https://profissionais.lab-saude.com">sistema profissional</a>, ou pela própria API.</p>
 <h2 id='criar-varios-pacientes-pagos-de-uma-so-vez-2'>Criar vários pacientes pagos de uma só vez</h2><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="n">payload</span><span class="o">=</span><span class="p">{}</span>
@@ -2449,7 +2468,7 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 <p>Este endpoint retorna as informações de um paciente específico, dependendo de qual ID seja passado na rota.</p>
 
 <p>A API retorna um objeto contendo todos os dados cadastrados no banco referentes ao paciente em questão.</p>
-<h3 id='objeto-de-resposta-descomplicado-12'>Objeto de resposta descomplicado</h3>
+<h3 id='objeto-de-resposta-descomplicado-11'>Objeto de resposta descomplicado</h3>
 <table><thead>
 <tr>
 <th>Campo</th>
@@ -2614,7 +2633,7 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 <p>De maneira similar ao endpoint anterior, este retorna as informações de um paciente específico, dependendo de qual CPF seja passado na rota.</p>
 
 <p>A API retorna um objeto contendo todos os dados cadastrados no banco referentes ao paciente em questão.</p>
-<h3 id='objeto-de-resposta-descomplicado-13'>Objeto de resposta descomplicado</h3>
+<h3 id='objeto-de-resposta-descomplicado-12'>Objeto de resposta descomplicado</h3>
 <table><thead>
 <tr>
 <th>Campo</th>
@@ -2799,7 +2818,7 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 <p>Este endpoint serve para listar todos os pacientes cadastrados no banco. Feito especialmente para o ambiente de testes, é uma boa ferramenta para realizar queries que atuem sobre todos os pacientes e também para realizar debug durante o desenvolvimento.</p>
 
 <p>A API retorna um array contendo todos os pacientes cadastrados no banco (tanto pagantes como gratuitos), assim como as suas informações.</p>
-<h3 id='objeto-de-resposta-descomplicado-14'>Objeto de resposta descomplicado</h3>
+<h3 id='objeto-de-resposta-descomplicado-13'>Objeto de resposta descomplicado</h3>
 <table><thead>
 <tr>
 <th>Campo</th>
@@ -2863,7 +2882,7 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 <p>Basta apenas enviar o e-mail e cpf do paciente em questão. Dentro de alguns minutos ele receberá um e-mail explicando como recuperar sua senha.</p>
 
 <p>A API retorna uma mensagem padrão de sucesso avisando que o e-mail será enviado.</p>
-<h3 id='objeto-de-resposta-descomplicado-15'>Objeto de resposta descomplicado</h3>
+<h3 id='objeto-de-resposta-descomplicado-14'>Objeto de resposta descomplicado</h3>
 <table><thead>
 <tr>
 <th>Campo</th>
@@ -2931,7 +2950,7 @@ curl <span class="nt">--location</span> <span class="nt">--request</span> POST <
 <p>Basta apenas enviar o arquivo da nova imagem em JPEG, com o nome <code>profile_image</code> para este endpoint.</p>
 
 <p>A API retorna um objeto contendo um link para a nova imagem de perfil do paciente no S3 da AWS.</p>
-<h3 id='objeto-de-resposta-descomplicado-16'>Objeto de resposta descomplicado</h3>
+<h3 id='objeto-de-resposta-descomplicado-15'>Objeto de resposta descomplicado</h3>
 <table><thead>
 <tr>
 <th>Campo</th>
