@@ -1577,38 +1577,38 @@ Uma vez que o profissional foi cadastrado com disponibilidade parcial, é precis
 Profissionais que tenham a propriedade <code>disponibility</code> cadastrada como <code>Total</code> terão, por padrão, todos os horários disponíveis para atendimento na Lab Saúde.
 </aside>
 
-## Listar paciente pelo id
+## Listar horários disponíveis de um profissional
 
 ```python
 import requests
 
-user_id = "uuid-do-usuario-vem-aqui"
+user_id = "uuid-do-profissional-vem-aqui"
 
 headers = {
   'x_tenant_id': 'homolog',
-  'x_auth_token': 'may-the-force-be-with-you'
+  'x_auth_token': 'meu-precioso'
 }
 
-response = requests.get("https://homolog.api.lab-saude.com/tenants/users/" + user_id, headers=headers)
+response = requests.get("https://homolog.api.lab-saude.com/doctors/medics/medic-disponibility/" + user_id, headers=headers)
 ```
 
 ```shell
-curl --location --request GET 'https://homolog.api.lab-saude.com/tenants/users/uuid-do-usuario-vem-aqui' \
+curl --location --request GET 'https://homolog.api.lab-saude.com/doctors/medics/medic-disponibility/uuid-do-profissional-vem-aqui' \
 -H 'x_tenant_id: homolog' \
--H 'x_auth_token: may-the-force-be-with-you'
+-H 'x_auth_token: meu-precioso'
 ```
 
 ```javascript
 const axios = require("axios");
 
-const userId = "uuid-do-usuario-vem-aqui";
+const userId = "uuid-do-profissional-vem-aqui";
 
 const apiResponse = await axios.get(
-  `https://homolog.api.lab-saude.com/tenants/users/${userId}`,
+  `https://homolog.api.lab-saude.com/doctors/medics/medic-disponibility/${userId}`,
   {
     headers: {
       x_tenant_id: "homolog",
-      x_auth_token: "may-the-force-be-with-you",
+      x_auth_token: "meu-precioso",
     },
   }
 );
@@ -1618,57 +1618,46 @@ const apiResponse = await axios.get(
 
 ```json
 {
-  "id": "uuid-do-usuario-vem-aqui",
-  "name": "Luke Skywalker",
-  "email": "luke@jedi.com",
-  "password": "senha-criptografada",
-  "cpf": "786.985.230-99",
-  "phone": "+99 (99) 9.9999-9999",
-  "company_id": "JEDI",
-  "created_at": "1951-09-25T18:19:01.911+00:00",
-  "updated_at": "2021-11-18T18:19:01.911+00:00",
-  "system_wallet_number": "123",
-  "rg": null,
-  "mother_name": null,
-  "birth_date": "25/09/1951",
-  "gender": null,
-  "civil_state": null,
-  "profession": null,
-  "image_link": null,
-  "one_signal_id": null,
-  "payer": true,
-  "requires_more_info": false
+  "full_disponibility": false,
+  "dates": [
+    "2021-11-10T15:00:00.000Z",
+    "Mon Nov 15 2021 10:30:00 GMT-0300 (-03)"
+  ],
+  "disponibilities": {
+    "Segunda-feira": [
+      {
+        "id": "aaa8d33a-1e0e-4659-823e-0816b8be1578",
+        "start": "08:00",
+        "end": "12:00"
+      },
+      {
+        "id": "bdaff5a4-48a7-48c1-900e-652f53190a0e",
+        "start": "13:00",
+        "end": "15:00"
+      }
+    ],
+    "Terça-feira": [
+      {
+        "id": "935e6710-a6e7-405f-8c79-6e502485fad7",
+        "start": "08:00",
+        "end": "12:00"
+      }
+    ]
+  }
 }
 ```
 
-Este endpoint retorna as informações de um paciente específico, dependendo de qual ID seja passado na rota.
+Este endpoint retorna os horários disponíveis para marcação de consultas de um profissional em específico.
 
-A API retorna um objeto contendo todos os dados cadastrados no banco referentes ao paciente em questão.
+A API retorna um objeto contendo algumas informações, como se sua disponibilidade é total ou parcial, as datas futuras de consultas e os horários padrão disponíveis para marcação de consultas.
 
 ### Objeto de resposta descomplicado
 
-| Campo                | Descrição                                                                                                                                                  | Tipo           |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| id                   | ID do paciente no banco da Lab                                                                                                                             | UUID           |
-| name                 | Nome do paciente                                                                                                                                           | String         |
-| email                | E-mail do paciente                                                                                                                                         | String         |
-| password             | Senha do paciente criptografada utilizando Argon2                                                                                                          | String         |
-| cpf                  | CPF do paciente                                                                                                                                            | String         |
-| phone                | Número de telefone do paciente                                                                                                                             | String         |
-| company_id           | Identificador que referencia um paciente à uma empresa do ecossistema Lab                                                                                  | String         |
-| created_at           | Timestamp da data e hora de criação do paciente no banco                                                                                                   | Timestamp      |
-| updated_at           | Timestamp da data e hora da última atualização do paciente no banco                                                                                        | Timestamp      |
-| system_wallet_number | Caso seja um paciente pagante, recebe o número da carteira do paciente na System Saúde, parceira da Lab Saúde. Caso seja um paciente gratuito, recebe null | String ou null |
-| rg                   | R.G. do paciente                                                                                                                                           | String ou null |
-| mother_name          | Nome da mãe do paciente                                                                                                                                    | String ou null |
-| birth_date           | Data de nascimento do paciente                                                                                                                             | String ou null |
-| gender               | Gênero do paciente                                                                                                                                         | String ou null |
-| civil_state          | Estado civil do paciente                                                                                                                                   | String ou null |
-| profession           | Profissão do paciente                                                                                                                                      | String ou null |
-| image_link           | Link para imagem de perfil do paciente                                                                                                                     | String ou null |
-| one_signal_id        | ID do paciente no OneSignal, utilizado para enviar push notifications                                                                                      | String ou null |
-| payer                | Booleano que informa se o paciente é ou não um paciente pagante                                                                                            | Booleano       |
-| requires_more_info   | Booleano que informa se o paciente precisa adicionar mais informações para que seu cadastro fique completo                                                 | Booleano       |
+| Campo              | Descrição                                                                                      | Tipo              |
+| ------------------ | ---------------------------------------------------------------------------------------------- | ----------------- |
+| full_disponibility | Flag que indica se o profissional tem disponibilidade total ou parcial                         | Booleano          |
+| dates              | Datas das próximas consultas do profissional na Lab Saúde                                      | Array[Timestamps] |
+| disponibilities    | Horários cadastrados como disponíveis no banco na hora da criação dos horários do profissional | Objeto            |
 
 ## Listar paciente pelo CPF
 
