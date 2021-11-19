@@ -15,6 +15,7 @@ includes:
   - login
   - patients
   - professionals
+  - appointments
   - example
   - errors
 
